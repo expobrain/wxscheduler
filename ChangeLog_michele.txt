@@ -4,11 +4,6 @@
 ? Da vedere/Discutere/Approvare
 $ TO-DO
 
-20060422
------
-wxFrameSchedule: + icona print e voce del menu 
-metamenu: * nuova versione 0.7
-
 20060412
 ------
 wxScheduleUtils: + aggiunto il nuovo modulo e spostate due funzioni di "utilità" in esso
