@@ -20,5 +20,26 @@ Major (technical) features:
     python 2.3+
     win/linux (I think also Mac OS X. Someone want try?)
     new event handle "Bind" use (see wxSchedulerPaint)
+
+TO-DO:
+    A lot of things, but it's a list of them:
+    - Alarm date and time, and the message warning
+    - Debug
+    - See inside the code, where you find the TO-DO word :)
+    
+    
+History (Last 1.0):
+    
+    V 1.0 04/2006
+    
+    ED:
+        wxSchedulerPaint
+        Demo
+    MP:
+        wxFrameEvent
+        wxFrameSchedule
+        wxSchedule
+        wxScheduler
+        wxScheduleUtils
         
     

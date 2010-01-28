@@ -4,23 +4,6 @@
 ? Da vedere/Discutere/Approvare
 $ TO-DO
 
-20070130
---------
-* Corretta la funzione copyDateTime in wxSchedulerPaint per evitare problemi con
-  date non valide
-* Aggiunto SetDay(1) nel metodo _getSchedBlocks() di wxSchedulerPaint per evitare
-  eccezioni a causa di date non valide
-
-20060703
---------
-+ Versione definitiva 1.2
-* modifica del codice per gestire l'inizio della settimana il Lunedì o la Domenica
-  (vedere SetWeekStart() e relative costanti in wxSchedulerPaint.py)
-* miglioramento del metodo _shrinkText in wxSchedulerPaint: ora il testo va a capo
-  ad ogni parola invece di troncarla.
-+ nuovo metodo GetWeekdayDate() che restituisce la data del giorno della settimana
-  a cui appartiene la date passata come valore opzionale. 
-
 20060620
 --------
 + Versione definitiva 1.1
