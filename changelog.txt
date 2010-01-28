@@ -1,8 +1,3 @@
-v1.2.3:
-  20070824
-    - (Daniele) Add methods Next() and Previous() for easly navigation in one (default)
-      or multiple steps
-
 v1.2.2:
   20070419
     - (Daniele) New unified changelog in international language
