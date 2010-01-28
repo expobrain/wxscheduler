@@ -1,0 +1,149 @@
+﻿+ Aggiunto
+- Eliminato
+* Modificato/Corretto
+? Da vedere/Discutere/Approvare
+$ TO-DO
+
+20070130
+--------
+* Corretta la funzione copyDateTime in wxSchedulerPaint per evitare problemi con
+  date non valide
+* Aggiunto SetDay(1) nel metodo _getSchedBlocks() di wxSchedulerPaint per evitare
+  eccezioni a causa di date non valide
+
+20060703
+--------
++ Versione definitiva 1.2
+* modifica del codice per gestire l'inizio della settimana il Lunedì o la Domenica
+  (vedere SetWeekStart() e relative costanti in wxSchedulerPaint.py)
+* miglioramento del metodo _shrinkText in wxSchedulerPaint: ora il testo va a capo
+  ad ogni parola invece di troncarla.
++ nuovo metodo GetWeekdayDate() che restituisce la data del giorno della settimana
+  a cui appartiene la date passata come valore opzionale. 
+
+20060620
+--------
++ Versione definitiva 1.1
++ Aggiunta anteprima in WXPrintPreview in base alla visualizzazione corrente
+
+20060524
+--------
+* Riorganizzazione di wxScheduler: scorporato il core di wxScheduler dalla GUI wx 
+  creando wxScheduler e wxSchedulerPaint
++ Aggiunto wxSchedulerPaint per effettuare la stampa in wxPrintout e wxReportScheduler 
+  come esempio
++ wxSchedulerCore ora può essere usato anche senza GUI come oggetto in memoria
++ Aggiunto il metodo SetResizable() che permette a wxScheduler di occupare tutto
+  lo spazio disponibile in wxScrolledWindow, senza scendere sotto i valori minimi 
+  definiti dalle costanti in wxSchedulerPaint
+* modificato lo schema dei colori ottimizzati per la stampa e per maggior visibilità
+  in GUI
+* bugfix vari
+? il salvataggio in wxFrameEvent genera:
+   TypeError: Refresh() takes exactly 1 argument (2 given)
+
+20060415
+--------
+* corretto bug in copyDate e in altri punti del codice: se cambio il mese e il 
+  giorno di un wx.DateTime valido e, durante SetDay() o SetMonth() la data non è
+  valida, viene generata un'eccezione. Esempio: da 2006/03/31 devo passare a 
+  2006/02/10, eseguendo SetMonth(1) la data diventa 2006/02/31 e si solleva 
+  l'eccezione
+
+20060412
+--------
+* corretta l'escusione del rendering degli appuntamenti completamente fouri dagli
+  orari di lavoro
+
+20060411
+--------
++ aggiunto il metodo SetWorkHours() alla classe wxScheduler
+* corretti problemi di visualizzazione appuntamenti in wxSchedulerPaint
+
+20060324
+--------
++ aggiunto il parametro clientdata alla classe wxSchedule
++ aggiunto il metodo DeleteAll() alla classe wxScheduler per eliminare tutti gli schedule
++ aggiunto il metodo GetDatesRange() alla classe wxSchedulerPaint che ritorna una tupla
+  con gli estremi delle date visualizzate
+* corretti i calcoli per la visualizzazione degli schedule
+
+20060317
+--------
+* corretto il metodo OnPaint() per supportare correttamente lo scrolling
+
+20060315
+--------
++ aggiunti eventi EVT_SCHEDULE_ACTIVATED e EVT_SCHEDULE_DCLICK su codice 
+  suggerito da Michele
++ aggiunto il metodo _findSchedule() che, date le coordinate dell'envento, ritorna
+  lo schedule sottostante, se esiste
+? ho analizzato il problema dello scroll della finestra e non è difficile da
+  risolvere: utilizzando il metodo CalcUnscrolledPosition() di wx.ScrolledWindow
+  recupero l'origine traslata del wx.DC e la uso nei metodi di drawing per traslare
+  tutte le coordinate assolute
+  Nel frattempo che ne dici se rilasciamo la versione senza scrolling come versione
+  stabile, così da avere già il controllo funzionate ed incorporabile nelle nostre
+  applicazioni ?
+$ la description dello schedule, se ha dello spazio in altezza, deve essere multilinea
+
+20060313
+--------
+* correzione visualizzazione schedule in modalità mensile
+* corretta la visualizzazione degli schedule se la pausa pranzo viene nascosta
++ aggiunto il metodo GetViewSize() per conoscere la dimensione necessaria per 
+  visualizzare il controllo
+* parametrizzate le dimensioni del controllo
+
+20060311
+--------
+* correzione calcolo e visualizzazione degli schedule
+* corretto calcolo dei giorni per visualizzazione settimanale
+? invece di usare un wxPanel si potrebbe usare anche un wx.ScrolledWindow per aiutare
+  chi a una risoluzione video un pò bassa
+
+20060310
+--------
++ aggiunto _paintMonthly()
+
+20060308
+--------
++ aggiunta le funzione _getchedInDay() per filtrare gli schedule del giorno specificato
++ aggiunta la funzione _resizeSched() per ridimensionare uno schedule che abbia 
+  l'inzio e/o la fine all'esterno dell'intervallo selezionato
+* corretto _getSchedBlocks() per usare la funzione _resizeSched()
+* corretto _paintDay() che ora disegna solo gli schedule restituiti dalla funzione
+  _getchedInDay(). 
+  Corretto anche il nome del giorno renderizzato
+  Ora _paintDay() riceve come parametro il giorno da renderizzare in formato wxDateTime
++ terminata la funzione _paintWeekly()
+? il codice per popolare _lstDisplayedHours è stato mdoificato in modo da restituire
+  una lista di ore in base al range selezionato in wxSchedule.
+  Per farlo funzionare ho dovuto spostarlo nel metodo OnPaint(), con conseguente riduzione
+  delle prestazioni, perchè durante l'__init__() di wxSchedulerPaint() _startingHour e
+  _endingHour non sono ancora stati creati.
+  Propongo di spostare queste variabili in wxSchedulerPaint().
+? Propongo, per ora, di poter impostare l'orario di lavoro solo a multipli di 1 ora
+  per semplificare il calcolo per il render della griglia delle ore
+? Nel creare un nuovo schedule tramite wxFrameEvent ricevo un errore:
+
+    Traceback (most recent call last):
+      File "D:\lavoro\wxScheduler\devel\test2\wxFrameEvent.py", line 167, in OnToolC
+    lick
+        self._save()
+      File "D:\lavoro\wxScheduler\devel\test2\wxFrameEvent.py", line 254, in _save
+        self._schedule.description = self._txtDescription.GetValue()
+      File "D:\lavoro\wxScheduler\devel\test2\wxSchedule.py", line 116, in setDescri
+    ption
+        raise ValueError, "Description can be only a str value"
+    ValueError: Description can be only a str value
+
+  Probabilmente perchè ho la versione unicode di wx
+? Nella visualizzazione settimanale, se nel giorno ho almeno un evento, nel nome del
+  giorno appare un riquadro bianco. Cosa dovrebbe essere ?
+$ funzione _paintMontly()
+$ eventi EVT_SCHEDULE_AVTIVATED e EVT_SCHEDULE_MOUSEOVER
+$ ore 2:19, andare a dormire
+
+
+
