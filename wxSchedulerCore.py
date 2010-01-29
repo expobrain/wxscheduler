@@ -115,8 +115,8 @@ class wxSchedulerCore(wxSchedulerPaint):
             self._schedules.append(schedules)
         elif isinstance(schedules, (list, tuple)):
             #Control the schedule(s) passed
-            for sc in schedule:
-                if not isinstance(schedules, wxSchedule):
+            for sc in schedules:
+                if not isinstance(sc, wxSchedule):
                     raise InvalidSchedule, "Not a valid schedule"
                 self._schedules.append( sc )
         else:

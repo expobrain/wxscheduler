@@ -330,7 +330,6 @@ class FrameEvent(wx.Frame):
         """ Load the data into the frame
         """
         
-        #print self._schedule.category, self._schedule.notes, self._schedule.description
         self._chkDone.SetValue(self._schedule.done)
         
         self._setPanelColor(self._schedule.color)

@@ -28,21 +28,15 @@ class frmTest(wxFrameSchedule):
         schedule.start = start
         schedule.end = end
         
-        schedule.description = "BUG demostrazio on two days " *10 
-        schedule.notes = "AAAAAAAA" *10
+        schedule.description = "Two days schedule " * 20 
+        schedule.notes = "Your notes here" * 20
         schedule.Thaw()
         
         #Parent panel
         self.schedule.Add(schedule)
         self.schedule.SetShowWorkHour(True)
-        self.schedule.Bind(wxScheduler.EVT_SCHEDULE_ACTIVATED, self.OnDemoScheduleActivated)
         self.schedule.SetResizable(True)
-        
-    
-    def OnDemoScheduleActivated(self, evt):
-        
-        print self.schedule.IsInRange( wx.DateTime.Now() )
-        print "Click"
+
 
 def main():
     app = wx.App(False)

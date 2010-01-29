@@ -92,6 +92,8 @@ class wxSchedulerPaint(object):
         
         # Go and find the click
         if self._viewType in (wxSCHEDULER_DAILY, wxSCHEDULER_WEEKLY):
+            # In case we don't even enter the loop
+            myDate = None
             for i,hour in enumerate(self._lstDisplayedHours):
                 if (y > self._offsetTop + self._hourH * i 
                         and y < self._offsetTop + self._hourH * (i + 1)):
@@ -104,7 +106,7 @@ class wxSchedulerPaint(object):
             
             if self._viewType == wxSCHEDULER_DAILY:
                 return myDate
-            else:
+            elif myDate is not None:
                 dayWidth = self._week_size.width / 7
                 # Get the right day
                 for weekday in xrange(7):
@@ -190,6 +192,7 @@ class wxSchedulerPaint(object):
                 newSchedule.start       = utils.copyDateTime(schedule.start)
                 newSchedule.end         = utils.copyDateTime(schedule.end)
                 newSchedule.notes       = schedule.notes
+                newSchedule.icon        = schedule.icon
                 newSchedule.clientdata  = schedule
                 
                 schedInDay.append(newSchedule)
@@ -305,6 +308,12 @@ class wxSchedulerPaint(object):
                 dc.DrawRectangle(startX, startY, schedW, endH)
                 
                 runY = startY
+
+                if schedule.icon:
+                   bitmap = wx.ArtProvider.GetBitmap(schedule.icon, wx.ART_FRAME_ICON, (16, 16))
+                   dc.DrawBitmap(bitmap, startX + 5, runY, True)
+                   runY += 20
+
                 for line in description:
                     dc.DrawText(line, startX + 5, runY)
                     runY += dc.GetTextExtent(line)[1]
