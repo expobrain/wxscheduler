@@ -23,13 +23,15 @@ class DemoFrame( FrameSchedule ):
 		end.SetHour( 18 )
 		end.SetMinute( 00 )
 		
-		schedule = wxScheduler.wxSchedule()
 		schedule.Freeze()
-		schedule.start = start
-		schedule.end = end
+
+		schedule = wxScheduler.wxSchedule()
 		
-		schedule.description = "BUG demostrazio on two days " * 10 
-		schedule.notes = "AAAAAAAA" * 10
+		schedule.start			= start
+		schedule.end			= end
+		schedule.description	= "Two days schedule " * 20 
+		schedule.notes			= "Your notes here" * 20
+		
 		schedule.Thaw()
 		
 		# Parent panel

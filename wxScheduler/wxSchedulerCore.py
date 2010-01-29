@@ -118,12 +118,15 @@ class wxSchedulerCore( wxSchedulerPaint ):
 		# current visualization
 		if isinstance( schedules, wxSchedule ):
 			self._schedules.append( schedules )
+			
 		elif isinstance( schedules, ( list, tuple ) ):
 			#Control the schedule(s) passed
 			for sc in schedule:
-				if not isinstance( schedules, wxSchedule ):
+				if not isinstance( sc, wxSchedule ):
 					raise InvalidSchedule, "Not a valid schedule"
+				
 				self._schedules.append( sc )
+				
 		else:
 			raise ValueError( "Invalid value passed" )
 		

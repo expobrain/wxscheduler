@@ -1,3 +1,8 @@
+v1.2.4:
+  20100129
+    - (Jerome) Some fixes in wxSchedulerCore and wxSchedulerPaint
+    - (Jerome) Add support icons in the schedule
+
 v1.2.3:
   20070824
     - (Daniele) Add methods Next() and Previous() for easly navigation in one (default)
