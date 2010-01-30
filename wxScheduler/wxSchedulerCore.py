@@ -121,7 +121,7 @@ class wxSchedulerCore( wxSchedulerPaint ):
 			
 		elif isinstance( schedules, ( list, tuple ) ):
 			#Control the schedule(s) passed
-			for sc in schedule:
+			for sc in schedules:
 				if not isinstance( sc, wxSchedule ):
 					raise InvalidSchedule, "Not a valid schedule"
 				
