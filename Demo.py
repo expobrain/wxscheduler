@@ -13,29 +13,32 @@ class DemoFrame( FrameSchedule ):
 		super( DemoFrame, self ).__init__( None )
 		
 		self.schedule.SetWeekStart( wxScheduler.wxSCHEDULER_WEEKSTART_SUNDAY )
-		
-		start = wx.DateTime().Now()
-		start.SetHour( 15 )
-		start.SetMinute( 0 )
-		
-		end = wx.DateTime().Now()
-		end.SetDay( ( start + wx.DateSpan( days=2 ) ).GetDay() )
-		end.SetHour( 18 )
-		end.SetMinute( 00 )
-		
-		schedule.Freeze()
+
+		schedules = []
+
+		for description, start, end in [('From 10 to 13', 10, 13),
+						('From 11 to 16', 11, 16),
+						('From 14 to 17', 14, 17)]:
+			schedule = wxScheduler.wxSchedule()
+			schedule.Freeze()
+			try:
+				schedule.description = description
+				schedule.start = wx.DateTimeFromHMS(start, 0, 0)
+				schedule.end = wx.DateTimeFromHMS(end, 0, 0)
+				schedules.append(schedule)
+			finally:
+				schedule.Thaw()
 
 		schedule = wxScheduler.wxSchedule()
-		
-		schedule.start			= start
-		schedule.end			= end
-		schedule.description	= "Two days schedule " * 20 
-		schedule.notes			= "Your notes here" * 20
-		
-		schedule.Thaw()
-		
+		schedule.description = 'This one spans two days.'
+		schedule.start = wx.DateTimeFromHMS(15, 0, 0)
+		end = wx.DateTimeFromHMS(16, 0, 0)
+		end.AddDS(wx.DateSpan(days=1))
+		schedule.end = end
+		schedules.append(schedule)
+
 		# Parent panel
-		self.schedule.Add( schedule )
+		self.schedule.Add( schedules )
 		self.schedule.SetShowWorkHour( True )
 		self.schedule.SetResizable( True )
 
