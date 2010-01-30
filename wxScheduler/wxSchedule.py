@@ -88,7 +88,13 @@ class wxSchedule( wx.EvtHandler ):
 			data[ attribute ] = self.__getattribute__( attribute )
 		
 		return data
-						
+
+	def Clone(self):
+		newSchedule = wxSchedule()
+		for name, value in self.GetData().items():
+			setattr(newSchedule, name, value)
+		return newSchedule
+
 	# Internal methods
 	
 	def _eventNotification( self ):

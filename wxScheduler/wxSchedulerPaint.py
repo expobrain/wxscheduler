@@ -177,17 +177,8 @@ class wxSchedulerPaint( object ):
 		
 		for schedule in schedules:
 			if schedule.start.IsSameDate( day ) | schedule.end.IsSameDate( day ) | day.IsBetween( schedule.start, schedule.end ):
-				newSchedule = wxSchedule()
-				
-				newSchedule.category	= schedule.category
-				newSchedule.color		= schedule.color
-				newSchedule.description = schedule.description
-				newSchedule.done		= schedule.done
-				newSchedule.start	 	= utils.copyDateTime( schedule.start )
-				newSchedule.end		 	= utils.copyDateTime( schedule.end )
-				newSchedule.notes	 	= schedule.notes
+				newSchedule = schedule.Clone()
 				newSchedule.clientdata	= schedule
-				newSchedule.icon	 	= schedule.icon
 				
 				schedInDay.append( newSchedule )
 		
