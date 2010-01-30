@@ -4,6 +4,8 @@
 import warnings
 import wx
 
+from wxScheduleUtils import copyDateTime
+
 #New event
 wxEVT_COMMAND_SCHEDULE_CHANGE = wx.NewEventType()
 EVT_SCHEDULE_CHANGE = wx.PyEventBinder( wxEVT_COMMAND_SCHEDULE_CHANGE )
@@ -93,6 +95,9 @@ class wxSchedule( wx.EvtHandler ):
 		newSchedule = wxSchedule()
 		for name, value in self.GetData().items():
 			setattr(newSchedule, name, value)
+		# start and end should be copied as well
+		newSchedule._start = copyDateTime(newSchedule._start)
+		newSchedule._end = copyDateTime(newSchedule._end)
 		return newSchedule
 
 	# Internal methods
