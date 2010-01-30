@@ -47,13 +47,15 @@ class wxSchedule( wx.EvtHandler ):
 		# Need for freeze the event notification
 		self._freeze = False 
 	
-	def __getattribute__(self, name):
+	def __getattr__(self, name):
 		if name[:3] in [ 'get', 'set' ]:
 			warnings.warn( "getData() is deprecated, use GetData() instead", DeprecationWarning, stacklevel=2 )
 			
 			name = name[0].upper() + name[1:]
 		
-		return super( wxSchedule, self ).__getattribute__( name )
+			return getattr(self, name)
+
+		raise AttributeError(name)
 		
 	# Global methods
 	def Freeze( self ):
