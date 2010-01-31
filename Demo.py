@@ -30,10 +30,10 @@ class DemoFrame( FrameSchedule ):
 				schedule.Thaw()
 
 		schedule = wxScheduler.wxSchedule()
-		schedule.description = 'This one spans two days'
+		schedule.description = 'This one spans three days'
 		schedule.start = wx.DateTimeFromHMS(15, 0, 0)
 		end = wx.DateTimeFromHMS(16, 0, 0)
-		end.AddDS(wx.DateSpan(days=1))
+		end.AddDS(wx.DateSpan(days=2))
 		schedule.end = end
 		schedules.append(schedule)
 

@@ -197,16 +197,21 @@ class wxSchedulerPaint( object ):
 		results = []
 
 		for schedule in schedules:
-			if schedule.start.IsBetween(start, end) or schedule.end.IsBetween(start, end):
-				newSchedule = schedule.Clone()
-				# This is used to find the original schedule object in _findSchedule.
-				newSchedule.clientdata	= schedule
+			if schedule.start.IsLaterThan(end):
+				continue
+                        if start.IsLaterThan(schedule.end):
+				continue
 
-				if start.IsLaterThan(schedule.start):
-					newSchedule.start = utils.copyDateTime(start)
-				if schedule.end.IsLaterThan(end):
-					newSchedule.end = utils.copyDateTime(end)
-				results.append(newSchedule)
+			newSchedule = schedule.Clone()
+			# This is used to find the original schedule object in _findSchedule.
+			newSchedule.clientdata	= schedule
+
+			if start.IsLaterThan(schedule.start):
+				newSchedule.start = utils.copyDateTime(start)
+			if schedule.end.IsLaterThan(end):
+				newSchedule.end = utils.copyDateTime(end)
+
+                        results.append(newSchedule)
 
 		return results
 
