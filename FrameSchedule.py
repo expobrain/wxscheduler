@@ -89,10 +89,18 @@ class FrameSchedule( wx.Frame ):
 		bmp_next = wx.Bitmap( os.path.join( imagePath, "preview.png" ) )
 		tb.AddSimpleTool( ID_PREVIEW, bmp_next, "Preview" )
 
+		self.cb = wx.Choice(tb, wx.ID_ANY)
+		self.cb.Append('Vertical')
+		self.cb.Append('Horizontal')
+		self.cb.SetSelection(0)
+		tb.AddControl(self.cb)
+
 		#Bind the events
 		for bmpId in ( ( ID_DAY, ID_WEEK, ID_MONTH, ID_TODAY, ID_TO_DAY, ID_PREV, ID_NEXT, ID_PREVIEW ) ):
 			tb.Bind( wx.EVT_TOOL, self.OnToolClick, id=bmpId )
-		
+
+		self.cb.Bind(wx.EVT_CHOICE, self.OnChangeStyle)
+
 		tb.Realize()
 		
 		#Crete the menu
@@ -164,7 +172,11 @@ class FrameSchedule( wx.Frame ):
 			self.OnMB_PrintPreview()
 		else:
 			self.schedule.SetViewType( evtId )
-			
+
+	def OnChangeStyle(self, evt):
+		self.schedule.SetStyle({0: wxScheduler.wxSCHEDULER_VERTICAL,
+					1: wxScheduler.wxSCHEDULER_HORIZONTAL}[self.cb.GetSelection()])
+
 	def OnMB_ViewDay( self ):
 		""" User want to change the view in today
 		"""
@@ -205,9 +217,10 @@ class FrameSchedule( wx.Frame ):
 		wx.BeginBusyCursor()
 		
 		format = self.schedule.GetViewType()
+		style = self.schedule.GetStyle()
 		day	 = self.schedule.GetDate()
-		rpt1	 = wxScheduler.wxReportScheduler( format, day, self.schedule.GetSchedules() )
-		rpt2	 = wxScheduler.wxReportScheduler( format, day, self.schedule.GetSchedules() )
+		rpt1	 = wxScheduler.wxReportScheduler( format, style, day, self.schedule.GetSchedules() )
+		rpt2	 = wxScheduler.wxReportScheduler( format, style, day, self.schedule.GetSchedules() )
 		
 		preview = wx.PrintPreview( rpt1, rpt2 )
 		preview.SetZoom( 25 )
