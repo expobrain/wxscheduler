@@ -35,6 +35,7 @@ class DemoFrame( FrameSchedule ):
 		end = wx.DateTimeFromHMS(16, 0, 0)
 		end.AddDS(wx.DateSpan(days=2))
 		schedule.end = end
+		schedule.foreground = wx.Color(255, 0, 0)
 		schedules.append(schedule)
 
 		# Parent panel
