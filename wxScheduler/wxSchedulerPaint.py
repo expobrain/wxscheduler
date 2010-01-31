@@ -611,7 +611,7 @@ class wxSchedulerPaint( object ):
 		for weekday in xrange( 7 ):
 			# Must do a copy of wxDateTime object else I append a reference of 
 			# same object mupliplied for 7
-			days.append( utils.copyDateTime( day.SetToWeekDayInSameWeek( weekday, self._weekstart ) ) )
+			days.append( utils.copyDateTime( utils.setToWeekDayInSameWeek( day, weekday, self._weekstart ) ) )
 			
 		for weekday, day in enumerate( days ):
 			self._paintDay( dc, day, LEFT_COLUMN_SIZE + width * weekday, width, hourH )
@@ -628,9 +628,9 @@ class wxSchedulerPaint( object ):
 		dc.SetBrush( wx.Brush( DAY_BACKGROUND_BRUSH ) )
 		dc.DrawRectangle(x, 0, width, 32767)
 
-		startDay = utils.copyDateTime(day.SetToWeekDayInSameWeek(0, self._weekstart))
+		startDay = utils.copyDateTime(utils.setToWeekDayInSameWeek(day, 0, self._weekstart))
 
-		endDay = utils.copyDateTime(day.SetToWeekDayInSameWeek(6, self._weekstart))
+		endDay = utils.copyDateTime(utils.setToWeekDayInSameWeek(day, 6, self._weekstart))
 		endDay.SetHour(23)
 		endDay.SetMinute(59)
 		endDay.SetSecond(59)
@@ -647,7 +647,7 @@ class wxSchedulerPaint( object ):
 			startX = x + int(1.0 * width * dayN * 24 * 60 / totalSpan)
 			endX = x + int(1.0 * width * (dayN + 1) * 24 * 60 / totalSpan)
 
-			theDay = utils.copyDateTime(day.SetToWeekDayInSameWeek(dayN, self._weekstart))
+			theDay = utils.copyDateTime(utils.setToWeekDayInSameWeek(day, dayN, self._weekstart))
 
 			text = '%s %s %s' % ( theDay.GetWeekDayName( theDay.GetWeekDay() )[:3], theDay.GetDay(), theDay.GetMonthName( theDay.GetMonth() ) )
 			textW, textH = dc.GetTextExtent( text )
@@ -762,8 +762,8 @@ class wxSchedulerPaint( object ):
 		if self._viewType == wxSCHEDULER_DAILY:
 			pass
 		elif self._viewType == wxSCHEDULER_WEEKLY:
-			min.SetToWeekDayInSameWeek( 0, 2 )
-			max.SetToWeekDayInSameWeek( 6, 2 )
+			utils.setToWeekDayInSameWeek( min, 0, wxSCHEDULER_WEEKSTART_SUNDAY )
+			utils.SetToWeekDayInSameWeek( max, 6, wxSCHEDULER_WEEKSTART_SUNDAY )
 		elif self._viewType == wxSCHEDULER_MONTHLY:
 			min.SetDay( 1 )
 			max.SetToLastMonthDay()
