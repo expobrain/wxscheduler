@@ -10,7 +10,7 @@ import wx
 import wxScheduleUtils as utils
 
 if sys.version.startswith( "2.3" ):
-   from sets import Set as set
+	from sets import Set as set
 
 
 # Events 
