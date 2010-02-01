@@ -95,6 +95,17 @@ class FrameSchedule( wx.Frame ):
 		self.cb.SetSelection(0)
 		tb.AddControl(self.cb)
 
+		if hasattr(wx, 'GraphicsContext'):
+			self.drawerChoice = wx.Choice(tb, wx.ID_ANY)
+			self.drawerChoice.Append('Classic')
+			self.drawerChoice.Append('Fancy')
+			self.drawerChoice.SetSelection(0)
+			tb.AddControl(self.drawerChoice)
+			self.drawerChoice.Bind(wx.EVT_CHOICE, self.OnChangeDrawer)
+		else:
+			wx.MessageBox('This wx version does not support Graphics context; theming is disabled.',
+				      'Warning', wx.OK)
+
 		#Bind the events
 		for bmpId in ( ( ID_DAY, ID_WEEK, ID_MONTH, ID_TODAY, ID_TO_DAY, ID_PREV, ID_NEXT, ID_PREVIEW ) ):
 			tb.Bind( wx.EVT_TOOL, self.OnToolClick, id=bmpId )
@@ -176,6 +187,10 @@ class FrameSchedule( wx.Frame ):
 	def OnChangeStyle(self, evt):
 		self.schedule.SetStyle({0: wxScheduler.wxSCHEDULER_VERTICAL,
 					1: wxScheduler.wxSCHEDULER_HORIZONTAL}[self.cb.GetSelection()])
+
+	def OnChangeDrawer(self, evt):
+		self.schedule.SetDrawer({0: wxScheduler.wxBaseDrawer,
+					 1: wxScheduler.wxFancyDrawer}[self.drawerChoice.GetSelection()]())
 
 	def OnMB_ViewDay( self ):
 		""" User want to change the view in today

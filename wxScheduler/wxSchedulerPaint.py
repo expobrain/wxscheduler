@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from wxSchedule import wxSchedule
+from wxDrawer import wxBaseDrawer, wxFancyDrawer
 from wxSchedulerCore import *
 import calendar
 import string
@@ -43,6 +44,9 @@ class wxSchedulerPaint( object ):
 		self._style = wxSCHEDULER_VERTICAL
 
 		self._minHeight = 0
+
+		self._drawer = wxBaseDrawer()
+		#self._drawer = wxFancyDrawer()
 
 	def _doClickControl( self, point ):
 		self._processEvt( wxEVT_COMMAND_SCHEDULE_ACTIVATED, point )
@@ -261,27 +265,11 @@ class wxSchedulerPaint( object ):
 		"""
 		Draw column width schedules
 		"""
-		dc.SetBrush( wx.Brush( SCHEDULER_BACKGROUND_BRUSH ) )
-		
-		offsetY = 0
-		
-		# Header day
-		font = dc.GetFont()
-		font.SetPointSize( 8 )
-		font.SetWeight( wx.FONTWEIGHT_BOLD )
-		dc.SetFont( font )
-		
-		text = '%s %s %s' % ( day.GetWeekDayName( day.GetWeekDay() )[:3], day.GetDay(), day.GetMonthName( day.GetMonth() ) )
-		textW, textH = dc.GetTextExtent( text )
-		dayH = HEADER_COLUMN_SIZE
-		offsetY += dayH
-		
+
+		offsetY = self._drawer.DrawDayHeader(self._drawer.GetContext(self, dc), day, offsetX, 0, width)
+
 		self._offsetTop = offsetY
-		
-		dc.DrawRectangle( offsetX, 0, width, textH * 1.5 )
-		dc.SetTextForeground( wx.BLACK )
-		dc.DrawText( text, offsetX + ( width - textW ) / 2, textH * .25 )
-		
+
 		# Body
 		dc.SetBrush( wx.Brush( DAY_BACKGROUND_BRUSH ) )
 		dc.DrawRectangle( offsetX, offsetY, width, hourH * len( self._lstDisplayedHours ) )
@@ -293,6 +281,7 @@ class wxSchedulerPaint( object ):
 		
 		# calculate pixels/minute ratio
 		minute = hourH / 30.0
+		font = dc.GetFont()
 		font.SetWeight( wx.FONTWEIGHT_NORMAL )
 		dc.SetFont( font )
 		
@@ -467,17 +456,9 @@ class wxSchedulerPaint( object ):
 		x = LEFT_COLUMN_SIZE
 		totalSpan = endHours.Subtract(startHours).GetMinutes()
 
-		offsetY = 0
 		width = self._day_size.width
 
-		dc.SetBrush( wx.Brush( DAY_BACKGROUND_BRUSH ) )
-		dc.DrawRectangle(x, 0, width, 32767)
-
-		text = '%s %s %s' % ( day.GetWeekDayName( day.GetWeekDay() )[:3], day.GetDay(), day.GetMonthName( day.GetMonth() ) )
-		textW, textH = dc.GetTextExtent( text )
-		dc.SetTextForeground( wx.BLACK )
-		dc.DrawText(text, int((width - textW) / 2), offsetY)
-		offsetY += textH + SCHEDULE_INSIDE_MARGIN
+		offsetY = self._drawer.DrawDayHeader(self._drawer.GetContext(self, dc), startHours, x, 0, width)
 
 		# Draw hours
 		hourWidth = width / int(totalSpan / 60)
@@ -556,21 +537,11 @@ class wxSchedulerPaint( object ):
 		"""
 		Draw month's calendar using calendar module functions
 		"""
-		font = dc.GetFont()
-		font.SetPointSize( 8 )
-		font.SetWeight( wx.FONTWEIGHT_BOLD )
-		dc.SetFont( font )
-		
-		# Draw month name
-		text = "%s %s" % ( day.GetMonthName( day.GetMonth() ), day.GetYear() )
-		textW, textH = dc.GetTextExtent( text )
-		x = ( self._month_cell_size.width * 7 - textW ) / 2
-		y = ( HEADER_COLUMN_SIZE - textH ) / 2
-		offset = HEADER_COLUMN_SIZE
-		dc.SetTextForeground( wx.BLACK )
-		dc.DrawText( text, x, y )
-		
+
+		offset = self._drawer.DrawMonthHeader(self._drawer.GetContext(self, dc), day, 0, 0, self._month_cell_size.width * 7)
+
 		# Draw month grid
+		font = dc.GetFont()
 		font.SetWeight( wx.FONTWEIGHT_NORMAL )
 		dc.SetFont( font )
 		
@@ -623,20 +594,10 @@ class wxSchedulerPaint( object ):
 							y += textH 
 
 	def _paintMonthlyHorizontal( self, dc, day ):
-		font = dc.GetFont()
-		font.SetPointSize( 8 )
-		font.SetWeight( wx.FONTWEIGHT_BOLD )
-		dc.SetFont( font )
-
                 x = LEFT_COLUMN_SIZE
-                offsetY = SCHEDULE_INSIDE_MARGIN
 		width = self._month_cell_size.width * 7
 
-		text = "%s %s" % ( day.GetMonthName( day.GetMonth() ), day.GetYear() )
-		textW, textH = dc.GetTextExtent( text )
-		dc.SetTextForeground( wx.BLACK )
-		dc.DrawText(text, int((width - textW) / 2), offsetY)
-		offsetY += textH + SCHEDULE_INSIDE_MARGIN
+		offsetY = self._drawer.DrawMonthHeader(self._drawer.GetContext(self, dc), day, 0, 0, width)
 
 		start, count = calendar.monthrange(day.GetYear(), day.GetMonth() + 1)
 
@@ -695,10 +656,6 @@ class wxSchedulerPaint( object ):
 
 		width = self._week_size.width
 		x = LEFT_COLUMN_SIZE
-		offsetY = SCHEDULE_INSIDE_MARGIN
-
-		dc.SetBrush( wx.Brush( DAY_BACKGROUND_BRUSH ) )
-		dc.DrawRectangle(x, 0, width, 32767)
 
 		startDay = utils.copyDateTime(utils.setToWeekDayInSameWeek(day, 0, self._weekstart))
 
@@ -709,32 +666,14 @@ class wxSchedulerPaint( object ):
 
 		totalSpan = endDay.Subtract(startDay).GetMinutes()
 
-		font = dc.GetFont()
-		font.SetPointSize( 8 )
-		font.SetWeight( wx.FONTWEIGHT_BOLD )
-		dc.SetFont( font )
-		dc.SetTextForeground( wx.BLACK )
-
-		maxDY = 0
+		offsetY = 0
 		for dayN in xrange(7):
-			startX = x + int(1.0 * width * dayN * 24 * 60 / totalSpan)
-			endX = x + int(1.0 * width * (dayN + 1) * 24 * 60 / totalSpan)
-
-			theDay = utils.copyDateTime(utils.setToWeekDayInSameWeek(day, dayN, self._weekstart))
-
-			text = '%s %s %s' % ( theDay.GetWeekDayName( theDay.GetWeekDay() )[:3], theDay.GetDay(), theDay.GetMonthName( theDay.GetMonth() ) )
-			textW, textH = dc.GetTextExtent( text )
-			dc.DrawText(text, startX + int((endX - startX - textW) / 2), offsetY)
-			maxDY = max(maxDY, textH)
-
-		for dayN in xrange(7):
-			endX = x + int(1.0 * width * (dayN + 1) * 24 * 60 / totalSpan)
-			dc.DrawLine(endX, offsetY, endX, 32767)
-
-		offsetY += maxDY
-		dc.DrawLine(x, offsetY + 4, x + width, offsetY + 4)
-
-		offsetY += maxDY + SCHEDULE_INSIDE_MARGIN
+			offsetY = max(offsetY,
+				      self._drawer.DrawDayHeader(self._drawer.GetContext(self, dc),
+								 utils.setToWeekDayInSameWeek(day, dayN, self._weekstart),
+								 x + int(dayN * width / 7),
+								 0,
+								 int(width / 7)))
 
 		self._paintPeriodHorizontal(dc, startDay, endDay, x, offsetY, width)
 
@@ -974,3 +913,10 @@ class wxSchedulerPaint( object ):
 
 	def GetStyle( self ):
 		return self._style
+
+	def SetDrawer(self, drawer):
+		"""
+		Sets the drawer instance.
+		"""
+		self._drawer = drawer
+		self.Refresh()
