@@ -561,15 +561,9 @@ class wxSchedulerPaint( object ):
 				dc.DrawRectangle( x, y, cellW, cellH )
 				
 				if monthDay > 0:
-					# Draw day number in upper right corner 
+					# Draw day number
 					day.SetDay( monthDay )
-					monthDay = str( monthDay )
-					textW, textH = dc.GetTextExtent( monthDay )
-					x += cellW - SCHEDULE_INSIDE_MARGIN - textW
-					y += SCHEDULE_INSIDE_MARGIN
-
-					dc.SetTextForeground( wx.BLACK )
-					dc.DrawText( monthDay, x, y )
+					textH = self._drawer.DrawSimpleDayHeader(self._drawer.GetContext(self, dc), day, x, y, cellW)
 					
 					# Draw schedules for this day
 					x = cellW * d + SCHEDULE_INSIDE_MARGIN
@@ -617,10 +611,9 @@ class wxSchedulerPaint( object ):
 		for i in xrange(count):
 			startX = x + int(1.0 * i * width / count)
 			endX = x + int(1.0 * (i + 1) * width / count)
-			text = '%d' % (i + 1)
-			textW, textH = dc.GetTextExtent(text)
-			dc.DrawText(text, startX + int((endX - startX - textW) / 2), offsetY)
-			maxDY = max(maxDY, textH)
+			day.SetDay(i + 1)
+			maxDY = max(maxDY, self._drawer.DrawSimpleDayHeader(self._drawer.GetContext(self, dc),
+									    day, startX, offsetY, endX - startX))
 		offsetY += maxDY
 		for i in xrange(count + 1):
 			startX = x + int(1.0 * i * width / count)

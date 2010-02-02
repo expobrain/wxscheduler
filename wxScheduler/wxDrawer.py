@@ -13,9 +13,6 @@ class wxDrawer(object):
 	# wx.GraphicsContext instead of wx.DC.
 	use_gc = False
 
-	def __init__(self, *args, **kwargs):
-		super(wxDrawer, self).__init__(*args, **kwargs)
-
 	def GetContext(self, owner, dc):
 		"""
 		Returns  either a  wx.DC (buffered  if possible)  or a
@@ -38,25 +35,36 @@ class wxDrawer(object):
 		"""
 		raise NotImplementedError
 
+	def DrawSimpleDayHeader(self, dc, day, x, y, w):
+		"""
+		Draws the header for a day, in compact form. Returns
+		the header's height.
+		"""
+		raise NotImplementedError
+
 
 class HeaderDrawerDCMixin(object):
 	"""
 	A mixin to draw headers with a regular DC.
 	"""
 
-	def _DrawHeader(self, dc, text, x, y, w):
+	def _DrawHeader(self, dc, text, x, y, w, pointSize=8, weight=wx.FONTWEIGHT_BOLD,
+			bgBrushColor=SCHEDULER_BACKGROUND_BRUSH, alignRight=False):
 		font = dc.GetFont()
-		font.SetPointSize( 8 )
-		font.SetWeight( wx.FONTWEIGHT_BOLD )
+		font.SetPointSize( pointSize )
+		font.SetWeight( weight )
 		dc.SetFont( font )
 
 		textW, textH = dc.GetTextExtent( text )
 
-		dc.SetBrush( wx.Brush( SCHEDULER_BACKGROUND_BRUSH ) )
+		dc.SetBrush( wx.Brush( bgBrushColor ) )
 		dc.DrawRectangle( x, y, w, textH * 1.5 )
 
 		dc.SetTextForeground( wx.BLACK )
-		dc.DrawText( text, x + ( w - textW ) / 2, y + textH * .25 )
+		if alignRight:
+			dc.DrawText( text, x + w - textW * 1.5, y + textH * .25)
+		else:
+			dc.DrawText( text, x + ( w - textW ) / 2, y + textH * .25 )
 
 		return int(textH * 1.5)
 
@@ -66,17 +74,27 @@ class HeaderDrawerGCMixin(object):
 	A mixin to draw headers with a GraphicsContext.
 	"""
 
-	def _DrawHeader(self, gc, text, x, y, w):
+	def _DrawHeader(self, gc, text, x, y, w, pointSize=8, weight=wx.FONTWEIGHT_BOLD,
+			bgBrushColor=SCHEDULER_BACKGROUND_BRUSH, alignRight=False):
 		font = wx.NORMAL_FONT
-		font.SetPointSize( 8 )
-		font.SetWeight( wx.FONTWEIGHT_BOLD )
+		font.SetPointSize( pointSize )
+		font.SetWeight( weight )
 		gc.SetFont(gc.CreateFont(font))
 
 		textW, textH = gc.GetTextExtent( text )
 
-		gc.SetBrush(gc.CreateLinearGradientBrush(x, y, x + w, y + textH * 1.5, wx.Color(128, 128, 128), SCHEDULER_BACKGROUND_BRUSH))
-		gc.DrawRoundedRectangle(x, y, w, textH * 1.5, textH * 0.75)
-		gc.DrawText(text, x + int((w - textW) / 2), y + int(textH * 0.25))
+		x1 = x
+		y1 = y
+		x2 = x + w
+		y2 = int(y + textH * 1.5)
+
+		gc.SetBrush(gc.CreateLinearGradientBrush(x1, y1, x2, y2, wx.Color(128, 128, 128), bgBrushColor))
+		gc.DrawRectangle(x1, y1, x2 - x1, y2 - y1)
+
+		if alignRight:
+			gc.DrawText(text, x + w - 1.5 * textW, y + int(textH * .25))
+		else:
+			gc.DrawText(text, x + int((w - textW) / 2), y + int(textH * .25))
 
 		return int(textH * 1.5)
 
@@ -93,6 +111,10 @@ class HeaderDrawerMixin(object):
 	def DrawMonthHeader(self, context, day, x, y, w):
 		return self._DrawHeader(context, "%s %s" % ( day.GetMonthName( day.GetMonth() ), day.GetYear() ),
 					x, y, w)
+
+	def DrawSimpleDayHeader(self, context, day, x, y, w):
+		return self._DrawHeader(context, '%d' % day.GetDay(), x, y, w,
+					weight=wx.FONTWEIGHT_NORMAL, alignRight=True)
 
 
 class wxBaseDrawer(HeaderDrawerMixin, HeaderDrawerDCMixin, wxDrawer):
