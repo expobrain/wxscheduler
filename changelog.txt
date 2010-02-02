@@ -1,3 +1,21 @@
+next:
+  20100201
+    - (Jerome)  Start moving  all actual  drawing code  to  a separate
+      class (wxDrawer).  This will allow  theming. In addition  to the
+      base drawer, add a  drawer based on wx.GraphicsContext with some
+      eye-candy like rounded rectangles and gradients.
+
+  20100131
+    - (Jerome) Add horizontal view style
+    - (Jerome) Work around a wxWidgets bug (SetToWeekDayInSameWeek)
+    - (Jerome) Fix a bug (on Jan 31st 2010, trying to jump to the next
+      month would lead to March instead of February)
+    - (Jerome) Add a new schedule attribute: foreground color
+
+  20100130
+    - (Jerome) Add some new events in the demo.
+    - (Jerome) Some fixes and minor refactoring
+
 v1.2.4:
   20100129
     - (Jerome) Some fixes in wxSchedulerCore and wxSchedulerPaint
