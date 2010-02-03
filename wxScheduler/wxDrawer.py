@@ -105,16 +105,26 @@ class HeaderDrawerMixin(object):
 	"""
 
 	def DrawDayHeader(self, context, day, x, y, w):
+		if day.IsSameDate(wx.DateTime.Now()):
+			bg = wx.SystemSettings_GetColour(wx.SYS_COLOUR_HIGHLIGHT)
+		else:
+			bg = wx.Colour(242, 241, 239)
+
 		return self._DrawHeader(context, '%s %s %s' % ( day.GetWeekDayName( day.GetWeekDay() )[:3], day.GetDay(), day.GetMonthName( day.GetMonth() ) ),
-					x, y, w)
+					x, y, w, bgBrushColor=bg)
 
 	def DrawMonthHeader(self, context, day, x, y, w):
 		return self._DrawHeader(context, "%s %s" % ( day.GetMonthName( day.GetMonth() ), day.GetYear() ),
 					x, y, w)
 
 	def DrawSimpleDayHeader(self, context, day, x, y, w):
+		if day.IsSameDate(wx.DateTime.Now()):
+			bg = wx.SystemSettings_GetColour(wx.SYS_COLOUR_HIGHLIGHT)
+		else:
+			bg = wx.Colour(242, 241, 239)
+
 		return self._DrawHeader(context, '%d' % day.GetDay(), x, y, w,
-					weight=wx.FONTWEIGHT_NORMAL, alignRight=True)
+					weight=wx.FONTWEIGHT_NORMAL, alignRight=True, bgBrushColor=bg)
 
 
 class wxBaseDrawer(HeaderDrawerMixin, HeaderDrawerDCMixin, wxDrawer):
