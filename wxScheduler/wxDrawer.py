@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 from wxSchedulerConstants import *
+from wxScheduleUtils import copyDateTime
+
 import wx
+
 
 class wxDrawer(object):
 	"""
@@ -41,6 +44,57 @@ class wxDrawer(object):
 		the header's height.
 		"""
 		raise NotImplementedError
+
+	@staticmethod
+	def ScheduleSize(schedule, workingHours, totalSize):
+		"""
+		This convenience static method computes the size of
+		the schedule in the direction that represent time,
+		according to a set of working hours. The workingHours
+		parameter is a list of 2-tuples of wx.DateTime objects
+		defining intervals which are indeed worked.
+		"""
+		totalSpan = 0
+		scheduleSpan = 0
+
+		for startHour, endHour in workingHours:
+			startHourCopy = copyDateTime(startHour)
+			startHourCopy.SetDay(1)
+			startHourCopy.SetMonth(1)
+			startHourCopy.SetYear(1)
+
+			endHourCopy = copyDateTime(endHour)
+			endHourCopy.SetDay(1)
+			endHourCopy.SetMonth(1)
+			endHourCopy.SetYear(1)
+
+			totalSpan += endHourCopy.Subtract(startHourCopy).GetMinutes()
+
+			localStart = copyDateTime(schedule.start)
+			localStart.SetDay(1)
+			localStart.SetMonth(1)
+			localStart.SetYear(1)
+
+			if localStart.IsLaterThan(endHourCopy):
+				continue
+
+			if startHourCopy.IsLaterThan(localStart):
+				localStart = startHourCopy
+
+			localEnd = copyDateTime(schedule.end)
+			localEnd.SetDay(1)
+			localEnd.SetMonth(1)
+			localEnd.SetYear(1)
+
+			if startHourCopy.IsLaterThan(localEnd):
+				continue
+
+			if localEnd.IsLaterThan(endHourCopy):
+				localEnd = endHourCopy
+
+			scheduleSpan += localEnd.Subtract(localStart).GetMinutes()
+
+		return 1.0 * totalSize * scheduleSpan / totalSpan
 
 
 class HeaderDrawerDCMixin(object):
