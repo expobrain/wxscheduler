@@ -199,7 +199,7 @@ class wxSchedulerPaint( object ):
 		
 		return schedInDay
 
-	def _getSchedInPeriod( self, schedules, start, end):
+	def _getSchedInPeriod( schedules, start, end):
 		"""
 		Returns a list of copied schedules that intersect with
 		the  period  defined by	 'start'  and 'end'.  Schedule
@@ -226,6 +226,8 @@ class wxSchedulerPaint( object ):
                         results.append(newSchedule)
 
 		return results
+
+	_getSchedInPeriod = staticmethod(_getSchedInPeriod)
 
 	def _splitSchedules( self, schedules ):
 		"""

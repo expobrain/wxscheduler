@@ -3,7 +3,7 @@
 import sys, unittest
 sys.path.insert(0, '..')
 
-from wxScheduler import wxDrawer, wxSchedule
+from wxScheduler import wxDrawer, wxSchedule, wxSchedulerPaint
 import wx
 
 
@@ -58,10 +58,63 @@ class TestScheduleAdjuster(unittest.TestCase):
 		self.assertEqual(wxDrawer.ScheduleSize(schedule, self.working, 8.5), 4.5)
 
 
+class TestScheduleInPeriod(unittest.TestCase):
+	def setUp(self):
+		self.schedule = wxSchedule()
+		self.schedule.start = wx.DateTimeFromHMS(9, 0, 0)
+		self.schedule.end = wx.DateTimeFromHMS(16, 0, 0)
+
+	def checkEqual(self, t1, t2):
+		self.assertEqual((t1.GetHour(), t1.GetMinute(), t1.GetSecond()),
+				 (t2.GetHour(), t2.GetMinute(), t2.GetSecond()))
+
+	def test_in_period(self):
+		"""Schedule already in period"""
+
+		copies = wxSchedulerPaint._getSchedInPeriod([self.schedule],
+							    wx.DateTimeFromHMS(8, 0, 0),
+							    wx.DateTimeFromHMS(18, 0, 0))
+		self.assertEqual(len(copies), 1)
+		self.assertNotEqual(id(self.schedule), id(copies[0]))
+		self.checkEqual(copies[0].start, wx.DateTimeFromHMS(9, 0, 0))
+		self.checkEqual(copies[0].end, wx.DateTimeFromHMS(16, 0, 0))
+
+	def test_not_in_period(self):
+		"""Schedule not in period"""
+
+		copies = wxSchedulerPaint._getSchedInPeriod([self.schedule],
+							    wx.DateTimeFromHMS(17, 0, 0),
+							    wx.DateTimeFromHMS(19, 0, 0))
+		self.assertEqual(len(copies), 0)
+
+	def test_overlap1(self):
+		"""Schedule ends in period"""
+
+		copies = wxSchedulerPaint._getSchedInPeriod([self.schedule],
+							    wx.DateTimeFromHMS(12, 0, 0),
+							    wx.DateTimeFromHMS(19, 0, 0))
+		self.assertEqual(len(copies), 1)
+		self.assertNotEqual(id(self.schedule), id(copies[0]))
+		self.checkEqual(copies[0].start, wx.DateTimeFromHMS(12, 0, 0))
+		self.checkEqual(copies[0].end, wx.DateTimeFromHMS(16, 0, 0))
+
+	def test_overlap2(self):
+		"""Schedule starts in period"""
+
+		copies = wxSchedulerPaint._getSchedInPeriod([self.schedule],
+							    wx.DateTimeFromHMS(4, 0, 0),
+							    wx.DateTimeFromHMS(11, 0, 0))
+		self.assertEqual(len(copies), 1)
+		self.assertNotEqual(id(self.schedule), id(copies[0]))
+		self.checkEqual(copies[0].start, wx.DateTimeFromHMS(9, 0, 0))
+		self.checkEqual(copies[0].end, wx.DateTimeFromHMS(11, 0, 0))
+
+
 def suite():
 	s = unittest.TestSuite()
 
 	s.addTest(unittest.makeSuite(TestScheduleAdjuster, 'test'))
+	s.addTest(unittest.makeSuite(TestScheduleInPeriod, 'test'))
 
 	return s
 
