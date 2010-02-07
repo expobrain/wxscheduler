@@ -18,6 +18,9 @@ if sys.version.startswith( "2.3" ):
 wxEVT_COMMAND_SCHEDULE_ACTIVATED = wx.NewEventType()
 EVT_SCHEDULE_ACTIVATED = wx.PyEventBinder( wxEVT_COMMAND_SCHEDULE_ACTIVATED )
 
+wxEVT_COMMAND_SCHEDULE_RIGHT_CLICK = wx.NewEventType()
+EVT_SCHEDULE_RIGHT_CLICK = wx.PyEventBinder( wxEVT_COMMAND_SCHEDULE_RIGHT_CLICK )
+
 wxEVT_COMMAND_SCHEDULE_DCLICK = wx.NewEventType()
 EVT_SCHEDULE_DCLICK = wx.PyEventBinder( wxEVT_COMMAND_SCHEDULE_DCLICK )
 
@@ -50,10 +53,13 @@ class wxSchedulerPaint( object ):
 
 	def _doClickControl( self, point ):
 		self._processEvt( wxEVT_COMMAND_SCHEDULE_ACTIVATED, point )
+
+	def _doRightClickControl( self, point ):
+		self._processEvt( wxEVT_COMMAND_SCHEDULE_RIGHT_CLICK, point )
 		
 	def _doDClickControl( self, point ):
 		self._processEvt( wxEVT_COMMAND_SCHEDULE_DCLICK, point )
-		
+
 	def _findSchedule( self, point ):
 		"""
 		Check if the point is on a schedule and return the schedule

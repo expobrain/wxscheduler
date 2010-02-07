@@ -1,4 +1,7 @@
 next:
+ 20100207
+    - (Jerome) New event for right click
+
  20100203
     - (Jerome) Highlight current day
 
