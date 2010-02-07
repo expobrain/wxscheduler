@@ -190,7 +190,7 @@ class FrameSchedule( wx.Frame ):
 
 	def OnChangeDrawer(self, evt):
 		self.schedule.SetDrawer({0: wxScheduler.wxBaseDrawer,
-					 1: wxScheduler.wxFancyDrawer}[self.drawerChoice.GetSelection()]())
+					 1: wxScheduler.wxFancyDrawer}[self.drawerChoice.GetSelection()])
 
 	def OnMB_ViewDay( self ):
 		""" User want to change the view in today

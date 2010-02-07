@@ -48,8 +48,8 @@ class wxSchedulerPaint( object ):
 
 		self._minHeight = 0
 
-		self._drawer = wxBaseDrawer()
-		#self._drawer = wxFancyDrawer()
+		self._drawerClass = wxBaseDrawer
+		#self._drawerClass = wxFancyDrawer
 
 	def _doClickControl( self, point ):
 		self._processEvt( wxEVT_COMMAND_SCHEDULE_ACTIVATED, point )
@@ -274,7 +274,8 @@ class wxSchedulerPaint( object ):
 		Draw column width schedules
 		"""
 
-		offsetY = self._drawer.DrawDayHeader(self._drawer.GetContext(self, dc), day, offsetX, 0, width)
+		drawer = self._drawerClass(self, dc)
+		offsetY = drawer.DrawDayHeader(day, offsetX, 0, width)
 
 		self._offsetTop = offsetY
 
@@ -466,7 +467,8 @@ class wxSchedulerPaint( object ):
 
 		width = self._day_size.width
 
-		offsetY = self._drawer.DrawDayHeader(self._drawer.GetContext(self, dc), startHours, x, 0, width)
+		drawer = self._drawerClass(self, dc)
+		offsetY = drawer.DrawDayHeader(startHours, x, 0, width)
 
 		# Draw hours
 		hourWidth = width / int(totalSpan / 60)
@@ -546,7 +548,8 @@ class wxSchedulerPaint( object ):
 		Draw month's calendar using calendar module functions
 		"""
 
-		offset = self._drawer.DrawMonthHeader(self._drawer.GetContext(self, dc), day, 0, 0, self._month_cell_size.width * 7)
+		drawer = self._drawerClass(self, dc)
+		offset = drawer.DrawMonthHeader(day, 0, 0, self._month_cell_size.width * 7)
 
 		# Draw month grid
 		font = dc.GetFont()
@@ -571,7 +574,7 @@ class wxSchedulerPaint( object ):
 				if monthDay > 0:
 					# Draw day number
 					day.SetDay( monthDay )
-					textH = self._drawer.DrawSimpleDayHeader(self._drawer.GetContext(self, dc), day, x, y, cellW)
+					textH = drawer.DrawSimpleDayHeader(day, x, y, cellW)
 					
 					# Draw schedules for this day
 					x = cellW * d + SCHEDULE_INSIDE_MARGIN
@@ -599,7 +602,8 @@ class wxSchedulerPaint( object ):
                 x = LEFT_COLUMN_SIZE
 		width = self._month_cell_size.width * 7
 
-		offsetY = self._drawer.DrawMonthHeader(self._drawer.GetContext(self, dc), day, 0, 0, width)
+		drawer = self._drawerClass(self, dc)
+		offsetY = drawer.DrawMonthHeader(day, 0, 0, width)
 
 		start, count = calendar.monthrange(day.GetYear(), day.GetMonth() + 1)
 
@@ -620,8 +624,7 @@ class wxSchedulerPaint( object ):
 			startX = x + int(1.0 * i * width / count)
 			endX = x + int(1.0 * (i + 1) * width / count)
 			day.SetDay(i + 1)
-			maxDY = max(maxDY, self._drawer.DrawSimpleDayHeader(self._drawer.GetContext(self, dc),
-									    day, startX, offsetY, endX - startX))
+			maxDY = max(maxDY, drawer.DrawSimpleDayHeader(day, startX, offsetY, endX - startX))
 		offsetY += maxDY
 		for i in xrange(count + 1):
 			startX = x + int(1.0 * i * width / count)
@@ -667,14 +670,15 @@ class wxSchedulerPaint( object ):
 
 		totalSpan = endDay.Subtract(startDay).GetMinutes()
 
+		drawer = self._drawerClass(self, dc)
+
 		offsetY = 0
 		for dayN in xrange(7):
 			offsetY = max(offsetY,
-				      self._drawer.DrawDayHeader(self._drawer.GetContext(self, dc),
-								 utils.setToWeekDayInSameWeek(day, dayN, self._weekstart),
-								 x + int(dayN * width / 7),
-								 0,
-								 int(width / 7)))
+				      drawer.DrawDayHeader(utils.setToWeekDayInSameWeek(day, dayN, self._weekstart),
+							   x + int(dayN * width / 7),
+							   0,
+							   int(width / 7)))
 
 		self._paintPeriodHorizontal(dc, startDay, endDay, x, offsetY, width)
 
@@ -915,9 +919,9 @@ class wxSchedulerPaint( object ):
 	def GetStyle( self ):
 		return self._style
 
-	def SetDrawer(self, drawer):
+	def SetDrawer(self, drawerClass):
 		"""
-		Sets the drawer instance.
+		Sets the drawer class.
 		"""
-		self._drawer = drawer
+		self._drawerClass = drawerClass
 		self.Refresh()
