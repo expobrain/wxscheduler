@@ -45,7 +45,6 @@ class wxDrawer(object):
 		"""
 		raise NotImplementedError
 
-	@staticmethod
 	def ScheduleSize(schedule, workingHours, totalSize):
 		"""
 		This convenience static method computes the size of
@@ -96,6 +95,7 @@ class wxDrawer(object):
 
 		return 1.0 * totalSize * scheduleSpan / totalSpan
 
+	ScheduleSize = staticmethod(ScheduleSize)
 
 class HeaderDrawerDCMixin(object):
 	"""
