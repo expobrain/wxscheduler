@@ -29,6 +29,13 @@ class DemoFrame( FrameSchedule ):
 			finally:
 				schedule.Thaw()
 
+		for idx in xrange(1):
+			schedule = wxScheduler.wxSchedule()
+			schedule.description = ('Test %d' % idx * 40)
+			schedule.start = wx.DateTimeFromHMS(9, 0, 0)
+			schedule.end = wx.DateTimeFromHMS(16, 0, 0)
+			schedules.append(schedule)
+
 		schedule = wxScheduler.wxSchedule()
 		schedule.description = 'This one spans three days'
 		schedule.start = wx.DateTimeFromHMS(15, 0, 0)

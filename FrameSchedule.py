@@ -233,12 +233,13 @@ class FrameSchedule( wx.Frame ):
 		
 		format = self.schedule.GetViewType()
 		style = self.schedule.GetStyle()
+		drawer = self.schedule.GetDrawer()
 		day	 = self.schedule.GetDate()
-		rpt1	 = wxScheduler.wxReportScheduler( format, style, day, self.schedule.GetSchedules() )
-		rpt2	 = wxScheduler.wxReportScheduler( format, style, day, self.schedule.GetSchedules() )
+		rpt1	 = wxScheduler.wxReportScheduler( format, style, drawer, day, self.schedule.GetSchedules() )
+		rpt2	 = wxScheduler.wxReportScheduler( format, style, drawer, day, self.schedule.GetSchedules() )
 		
 		preview = wx.PrintPreview( rpt1, rpt2 )
-		preview.SetZoom( 25 )
+		preview.SetZoom( 100 )
 
 		if preview.Ok():
 			frame = wx.PreviewFrame( preview, self.GetParent(), 'Anteprima di stampa', size=wx.Size( 700, 500 ) )

@@ -1,4 +1,8 @@
 next:
+ 20100209
+    - (Jerome) Heavy refactoring, faster drawing, better handling of
+      scrollbars, better handling of variable-sized calendars
+
  20100207
     - (Jerome) New event for right click
 
