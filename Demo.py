@@ -34,6 +34,7 @@ class DemoFrame( FrameSchedule ):
 			schedule.description = ('Test %d' % idx * 40)
 			schedule.start = wx.DateTimeFromHMS(9, 0, 0)
 			schedule.end = wx.DateTimeFromHMS(16, 0, 0)
+			schedule.icons = [wx.ART_FOLDER, wx.ART_NORMAL_FILE]
 			schedules.append(schedule)
 
 		schedule = wxScheduler.wxSchedule()
