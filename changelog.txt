@@ -3,6 +3,8 @@ next:
     - (Jerome) Avoid unnecessary repaints, using a bitmap cache. Also
       group consecutive resize events to minimize drawing.
 
+    - (Jerome) Add Freeze/Thaw methods to wxScheduler for batch updates
+
  20100209
     - (Jerome) Heavy refactoring, faster drawing, better handling of
       scrollbars, better handling of variable-sized calendars
