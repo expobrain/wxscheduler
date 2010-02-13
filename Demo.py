@@ -29,7 +29,7 @@ class DemoFrame( FrameSchedule ):
 			finally:
 				schedule.Thaw()
 
-		for idx in xrange(1):
+		for idx in xrange(40):
 			schedule = wxScheduler.wxSchedule()
 			schedule.description = ('Test %d' % idx * 40)
 			schedule.start = wx.DateTimeFromHMS(9, 0, 0)

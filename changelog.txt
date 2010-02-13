@@ -1,4 +1,8 @@
 next:
+ 20100213
+    - (Jerome) Avoid unnecessary repaints, using a bitmap cache. Also
+      group consecutive resize events to minimize drawing.
+
  20100209
     - (Jerome) Heavy refactoring, faster drawing, better handling of
       scrollbars, better handling of variable-sized calendars
