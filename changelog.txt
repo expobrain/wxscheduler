@@ -1,4 +1,11 @@
 next:
+ 20100216
+    - (Jerome) More drawing optimizations; time to refresh the view in
+      vertical mode with 40+ schedules back from 18s to 2s. Schedule
+      change events now have a 'needsLayout' property; if False, the
+      schedule's bounding rect does not change so it's safe to redraw
+      only this area.
+
  20100213
     - (Jerome) Avoid unnecessary repaints, using a bitmap cache. Also
       group consecutive resize events to minimize drawing.

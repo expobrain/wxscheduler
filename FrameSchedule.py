@@ -185,8 +185,12 @@ class FrameSchedule( wx.Frame ):
 			self.schedule.SetViewType( evtId )
 
 	def OnChangeStyle(self, evt):
-		self.schedule.SetStyle({0: wxScheduler.wxSCHEDULER_VERTICAL,
-					1: wxScheduler.wxSCHEDULER_HORIZONTAL}[self.cb.GetSelection()])
+		self.schedule.Freeze()
+		try:
+			self.schedule.SetStyle({0: wxScheduler.wxSCHEDULER_VERTICAL,
+						1: wxScheduler.wxSCHEDULER_HORIZONTAL}[self.cb.GetSelection()])
+		finally:
+			self.schedule.Thaw()
 
 	def OnChangeDrawer(self, evt):
 		self.schedule.SetDrawer({0: wxScheduler.wxBaseDrawer,

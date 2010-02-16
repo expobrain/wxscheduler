@@ -47,9 +47,13 @@ class DemoFrame( FrameSchedule ):
 		schedules.append(schedule)
 
 		# Parent panel
-		self.schedule.Add( schedules )
-		self.schedule.SetShowWorkHour( True )
-		self.schedule.SetResizable( True )
+		self.schedule.Freeze()
+		try:
+			self.schedule.Add( schedules )
+			self.schedule.SetShowWorkHour( True )
+			self.schedule.SetResizable( True )
+		finally:
+			self.schedule.Thaw()
 
 
 def main():
