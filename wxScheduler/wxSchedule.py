@@ -3,6 +3,7 @@
 
 import warnings
 import wx
+import time
 
 from wxScheduleUtils import copyDateTime
 
@@ -51,6 +52,7 @@ class wxSchedule( wx.EvtHandler ):
 		self._done			= False
 		self._clientdata	= None
 		self._icons			= []
+		self._id = '%.f-%s' % (time.time(), id(self))
 		
 		# Need for freeze the event notification
 		self._freeze = False
@@ -93,6 +95,7 @@ class wxSchedule( wx.EvtHandler ):
 			"start", 
 			"clientdata",
 			"icons",
+			"id",
 		]
 		data = dict()
 					 
@@ -309,7 +312,13 @@ class wxSchedule( wx.EvtHandler ):
 	
 	def GetClientData( self ):
 		return self._clientdata
-	
+
+	def SetId( self, id_ ):
+		self._id = id_
+
+	def GetId( self ):
+		return self._id
+
 	category = property( GetCategory, SetCategory )
 	color = property( GetColor, SetColor )
 	font = property( GetFont, SetFont )
@@ -321,3 +330,4 @@ class wxSchedule( wx.EvtHandler ):
 	notes = property( GetNotes, SetNotes )
 	clientdata = property( GetClientData, SetClientData )
 	icons = property( GetIcons, SetIcons )
+	id = property( GetId, SetId )

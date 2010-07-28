@@ -159,8 +159,10 @@ class FrameSchedule( wx.Frame ):
 		#Open e new frame the the user DClick on the panel
 		self.schedule.Bind( wxScheduler.EVT_SCHEDULE_DCLICK, self.OnScheduleActivated )
 
-		# Printer settings
-		self.printerSettings = wx.PageSetupDialogData()
+		# Printer settings. We don't use wx.PrintData directly
+		# because it has a tendency to crash in a copy
+		# constructor. Ownership problems, I think.
+		self.printerSettings = None
 
 	# -- Event 
 	def OnMB_FileNew( self ):
@@ -237,10 +239,20 @@ class FrameSchedule( wx.Frame ):
 	def OnMB_PrintSetup( self ):
 		"""Setup printer"""
 
-		dlg = wx.PageSetupDialog( self, self.printerSettings )
+		if self.printerSettings is not None:
+			data = wx.PrintData()
+			data.SetOrientation(self.printerSettings['orientation'])
+			data.SetPaperId(self.printerSettings['paperid'])
+
+			dlg = wx.PageSetupDialog( self, wx.PageSetupDialogData(data) )
+		else:
+			dlg = wx.PageSetupDialog( self )
+
 		try:
 			if dlg.ShowModal() == wx.ID_OK:
-				self.printerSettings = dlg.GetPageSetupData()
+				data = dlg.GetPageSetupData().GetPrintData()
+				self.printerSettings = dict(orientation=data.GetOrientation(),
+							    paperid=data.GetPaperId())
 		finally:
 			dlg.Destroy()
 
@@ -256,8 +268,14 @@ class FrameSchedule( wx.Frame ):
 		day	 = self.schedule.GetDate()
 		rpt1	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, self.schedule.GetSchedules() )
 		rpt2	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, self.schedule.GetSchedules() )
-		
-		preview = wx.PrintPreview( rpt1, rpt2, self.printerSettings.GetPrintData() )
+
+		data = None
+		if self.printerSettings is not None:
+			data = wx.PrintData()
+			data.SetOrientation(self.printerSettings['orientation'])
+			data.SetPaperId(self.printerSettings['paperid'])
+
+		preview = wx.PrintPreview( rpt1, rpt2, data )
 		preview.SetZoom( 100 )
 
 		if preview.Ok():

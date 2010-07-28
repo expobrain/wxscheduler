@@ -5,6 +5,9 @@
 
     - (Jerome) Printer setup dialog
 
+    - (Jerome) Finished fixing print. Support for multiple pages in
+      horizontal mode.
+
 v1.3.0:
  (see http://code.google.com/p/wxscheduler/source/list for detailed changes)
 
