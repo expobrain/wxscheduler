@@ -1,3 +1,8 @@
+
+20100728
+    - (Jerome) Fix preview size for weekly and monthly printouts. Fix
+      printout in horizontal mode.
+
 v1.3.0:
  (see http://code.google.com/p/wxscheduler/source/list for detailed changes)
 

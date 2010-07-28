@@ -16,6 +16,11 @@ class wxSchedulerPrint( wxSchedulerCore ):
 		Draw object on DC
 		"""
 		self.DrawBuffer()
+		w, h = self._bitmap.GetWidth(), self._bitmap.GetHeight()
+		dcW, dcH = self._dc.GetSize()
+		scaleX = 1.0 * w / dcW
+		scaleY = 1.0 * h / dcH
+		self._dc.SetUserScale(min(scaleX, scaleY), min(scaleX, scaleY))
 		self.OnPaint()
 		
 	def GetSize( self ):
