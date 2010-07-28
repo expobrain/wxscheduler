@@ -47,6 +47,8 @@ class wxSchedulerPaint( object ):
 		self._drawerClass = wxBaseDrawer
 		#self._drawerClass = wxFancyDrawer
 
+		self._datetimeCoords = []
+
 		self._bitmap = None
 		self._minSize = None
 
