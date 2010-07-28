@@ -131,6 +131,7 @@ class FrameSchedule( wx.Frame ):
 		   ['  Only work hour', "check"], ],
 		   
 		  [['Print'],
+		   ['  Setup'],
 		   ['  Preview\tCtrl+P'], ],
 
 		  [['Help'],
@@ -157,7 +158,10 @@ class FrameSchedule( wx.Frame ):
 
 		#Open e new frame the the user DClick on the panel
 		self.schedule.Bind( wxScheduler.EVT_SCHEDULE_DCLICK, self.OnScheduleActivated )
-		
+
+		# Printer settings
+		self.printerSettings = wx.PageSetupDialogData()
+
 	# -- Event 
 	def OnMB_FileNew( self ):
 		""" Create a new event
@@ -229,7 +233,17 @@ class FrameSchedule( wx.Frame ):
 		dlg.SetFont( wx.Font( 8, wx.NORMAL, wx.NORMAL, wx.NORMAL, False ) )
 		dlg.ShowModal()
 		dlg.Destroy()
-	
+
+	def OnMB_PrintSetup( self ):
+		"""Setup printer"""
+
+		dlg = wx.PageSetupDialog( self, self.printerSettings )
+		try:
+			if dlg.ShowModal() == wx.ID_OK:
+				self.printerSettings = dlg.GetPageSetupData()
+		finally:
+			dlg.Destroy()
+
 	def OnMB_PrintPreview( self ):
 		""" Show the preview
 		"""
@@ -243,7 +257,7 @@ class FrameSchedule( wx.Frame ):
 		rpt1	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, self.schedule.GetSchedules() )
 		rpt2	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, self.schedule.GetSchedules() )
 		
-		preview = wx.PrintPreview( rpt1, rpt2 )
+		preview = wx.PrintPreview( rpt1, rpt2, self.printerSettings.GetPrintData() )
 		preview.SetZoom( 100 )
 
 		if preview.Ok():
