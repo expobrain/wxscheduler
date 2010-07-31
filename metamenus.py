@@ -1075,7 +1075,7 @@ class MenuBarEx(wx.MenuBar):
             # Maybe another menu was triggered elsewhere in parent.
             pass
 
-        evt.Skip()
+        #evt.Skip()
 
 
     def OnMB_before(self):
