@@ -16,6 +16,7 @@ class DemoFrame( FrameSchedule ):
 
 		schedules = []
 
+		complete = 0.0
 		for description, start, end in [('From 10 to 13', 10, 13),
 						('From 11 to 16', 11, 16),
 						('From 14 to 17', 14, 17)]:
@@ -25,9 +26,11 @@ class DemoFrame( FrameSchedule ):
 				schedule.description = description
 				schedule.start = wx.DateTimeFromHMS(start, 0, 0)
 				schedule.end = wx.DateTimeFromHMS(end, 0, 0)
+				schedule.complete = complete
 				schedules.append(schedule)
 			finally:
 				schedule.Thaw()
+			complete += 0.3
 
 		for idx in xrange(12):
 			schedule = wxScheduler.wxSchedule()
