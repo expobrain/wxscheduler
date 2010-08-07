@@ -54,7 +54,6 @@ class DemoFrame( FrameSchedule ):
 		try:
 			self.schedule.Add( schedules )
 			self.schedule.SetShowWorkHour( True )
-			self.schedule.SetResizable( True )
 		finally:
 			self.schedule.Thaw()
 

@@ -505,7 +505,10 @@ class wxSchedulerPaint( object ):
 
 	def DrawBuffer( self ):
 		if isinstance(self, wx.ScrolledWindow):
-			size = self.GetVirtualSize()
+			if self._resizable:
+				size = self.GetVirtualSize()
+			else:
+				size = self.CalcMinSize()
 		else:
 			size = self.GetSize()
 
@@ -534,9 +537,10 @@ class wxSchedulerPaint( object ):
 
 		# Bad things may happen here from time to time.
 		if isinstance(self, wx.ScrolledWindow):
-			if int(width) > size.GetWidth() or int(height) > size.GetHeight():
-				self.SetVirtualSize(wx.Size(int(width), int(height)))
-				self.DrawBuffer()
+			if self._resizable:
+				if int(width) > size.GetWidth() or int(height) > size.GetHeight():
+					self.SetVirtualSize(wx.Size(int(width), int(height)))
+					self.DrawBuffer()
 
 	def RefreshSchedule( self, schedule ):
 		if schedule.bounds is not None:

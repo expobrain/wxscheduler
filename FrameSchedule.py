@@ -106,6 +106,10 @@ class FrameSchedule( wx.Frame ):
 			wx.MessageBox('This wx version does not support Graphics context; theming is disabled.',
 				      'Warning', wx.OK)
 
+		self.resizableCheck = wx.CheckBox(tb, wx.ID_ANY, 'Resizable')
+		tb.AddControl(self.resizableCheck)
+		self.resizableCheck.Bind(wx.EVT_CHECKBOX, self.OnChangeResizable)
+
 		#Bind the events
 		for bmpId in ( ( ID_DAY, ID_WEEK, ID_MONTH, ID_TODAY, ID_TO_DAY, ID_PREV, ID_NEXT, ID_PREVIEW ) ):
 			tb.Bind( wx.EVT_TOOL, self.OnToolClick, id=bmpId )
@@ -201,6 +205,9 @@ class FrameSchedule( wx.Frame ):
 	def OnChangeDrawer(self, evt):
 		self.schedule.SetDrawer({0: wxScheduler.wxBaseDrawer,
 					 1: wxScheduler.wxFancyDrawer}[self.drawerChoice.GetSelection()])
+
+	def OnChangeResizable( self, evt ):
+		self.schedule.SetResizable( evt.IsChecked() )
 
 	def OnMB_ViewDay( self ):
 		""" User want to change the view in today
