@@ -689,6 +689,7 @@ class wxSchedulerPaint( object ):
 
 		panel.Bind( wx.EVT_PAINT, self._OnPaintHeaders )
 		panel.SetSize(wx.Size(-1, 1))
+		self.Bind(wx.EVT_SCROLLWIN, self._OnScroll)
 
 		panel.Refresh()
 
@@ -719,15 +720,21 @@ class wxSchedulerPaint( object ):
 
 			x, y = 0, 0
 
+			# Take horizontal scrolling into account
+			x0, _ = self.GetViewStart()
+			xu, _ = self.GetScrollPixelsPerUnit()
+			x0 *= xu
+			x -= x0
+
 			if self._viewType == wxSCHEDULER_DAILY:
 				if self._style == wxSCHEDULER_VERTICAL:
-					x = LEFT_COLUMN_SIZE
-					width -= x
+					x += LEFT_COLUMN_SIZE
+					width -= LEFT_COLUMN_SIZE
 				_, h = self._paintDailyHeaders(drawer, day, x, y, width, 36)
 			elif self._viewType == wxSCHEDULER_WEEKLY:
 				if self._style == wxSCHEDULER_VERTICAL:
-					x = LEFT_COLUMN_SIZE
-					width -= x
+					x += LEFT_COLUMN_SIZE
+					width -= LEFT_COLUMN_SIZE
 				h = self._paintWeeklyHeaders(drawer, day, x, y, width, 36)
 			elif self._viewType == wxSCHEDULER_MONTHLY:
 				_, h = self._paintMonthlyHeaders(drawer, day, x, y, width, 36)
@@ -738,3 +745,7 @@ class wxSchedulerPaint( object ):
 				self._headerPanel.GetParent().Layout()
 		finally:
 			dc.EndDrawing()
+
+	def _OnScroll( self, evt ):
+		self._headerPanel.Refresh()
+		evt.Skip()
