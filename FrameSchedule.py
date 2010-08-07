@@ -147,14 +147,18 @@ class FrameSchedule( wx.Frame ):
 
 		#And now the top panel and the panel schedule
 		self.topPanel = wx.Panel( self )
-		
+
+		self.headers = wx.Panel( self.topPanel, style=wx.FULL_REPAINT_ON_RESIZE )
 		self.schedule = wxScheduler.wxScheduler( self.topPanel )
+
+		self.schedule.SetHeaderPanel( self.headers )
 		
 		szAll = wx.BoxSizer( wx.VERTICAL )
+		szAll.Add( self.headers, 0, wx.EXPAND )
 		szAll.Add( self.schedule, 1, wx.EXPAND )
 		
 		self.topPanel.SetSizer( szAll )
-		
+
 		self.SetSize( wx.Size( 600, 600 ) )
 		self.SetSizeHints( 600, 600 )
 		
