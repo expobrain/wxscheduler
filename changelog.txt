@@ -1,4 +1,11 @@
 
+20100808
+    - (Jerome) One can now display several periods at once (except
+      for months)
+
+20100807
+    - (Jerome) Bigger default widths
+
 20100728
     - (Jerome) Fix preview size for weekly and monthly printouts. Fix
       printout in horizontal mode.

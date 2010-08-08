@@ -110,6 +110,13 @@ class FrameSchedule( wx.Frame ):
 		tb.AddControl(self.resizableCheck)
 		self.resizableCheck.Bind(wx.EVT_CHECKBOX, self.OnChangeResizable)
 
+		self.periodCount = wx.SpinCtrl(tb, wx.ID_ANY, '1', style=wx.SP_ARROW_KEYS)
+		self.periodCount.SetRange(1, 1000)
+		self.periodCountLabel = wx.StaticText(tb, wx.ID_ANY, 'day      ')
+		tb.AddControl(self.periodCount)
+		tb.AddControl(self.periodCountLabel)
+		self.periodCount.Bind( wx.EVT_SPINCTRL, self.OnChangePeriodCount )
+
 		#Bind the events
 		for bmpId in ( ( ID_DAY, ID_WEEK, ID_MONTH, ID_TODAY, ID_TO_DAY, ID_PREV, ID_NEXT, ID_PREVIEW ) ):
 			tb.Bind( wx.EVT_TOOL, self.OnToolClick, id=bmpId )
@@ -159,8 +166,8 @@ class FrameSchedule( wx.Frame ):
 		
 		self.topPanel.SetSizer( szAll )
 
-		self.SetSize( wx.Size( 600, 600 ) )
-		self.SetSizeHints( 600, 600 )
+		self.SetSize( wx.Size( 800, 600 ) )
+		self.SetSizeHints( 800, 600 )
 		
 		self._mb.SetMenuState( "ShowOnlyworkhour" )
 
@@ -197,6 +204,7 @@ class FrameSchedule( wx.Frame ):
 			self.OnMB_PrintPreview()
 		else:
 			self.schedule.SetViewType( evtId )
+			self._CheckPeriodLabel()
 
 	def OnChangeStyle(self, evt):
 		self.schedule.Freeze()
@@ -212,6 +220,28 @@ class FrameSchedule( wx.Frame ):
 
 	def OnChangeResizable( self, evt ):
 		self.schedule.SetResizable( evt.IsChecked() )
+
+	def _CheckPeriodLabel( self ):
+		if self.schedule.GetViewType() == wxScheduler.wxSCHEDULER_MONTHLY:
+			self.periodCount.Enable(False)
+			self.periodCountLabel.SetLabel('')
+		else:
+			self.periodCount.Enable(True)
+
+			if self.periodCount.GetValue() > 1:
+				if self.schedule.GetViewType() == wxScheduler.wxSCHEDULER_DAILY:
+					self.periodCountLabel.SetLabel('days')
+				elif self.schedule.GetViewType() == wxScheduler.wxSCHEDULER_WEEKLY:
+					self.periodCountLabel.SetLabel('weeks')
+			else:
+				if self.schedule.GetViewType() == wxScheduler.wxSCHEDULER_DAILY:
+					self.periodCountLabel.SetLabel('day')
+				elif self.schedule.GetViewType() == wxScheduler.wxSCHEDULER_WEEKLY:
+					self.periodCountLabel.SetLabel('week')
+
+	def OnChangePeriodCount( self, evt ):
+		self.schedule.SetPeriodCount(self.periodCount.GetValue())
+		self._CheckPeriodLabel()
 
 	def OnMB_ViewDay( self ):
 		""" User want to change the view in today
@@ -276,9 +306,10 @@ class FrameSchedule( wx.Frame ):
 		style = self.schedule.GetStyle()
 		drawer = self.schedule.GetDrawer()
 		weekstart = self.schedule.GetWeekStart()
+		periodCount = self.schedule.GetPeriodCount()
 		day	 = self.schedule.GetDate()
-		rpt1	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, self.schedule.GetSchedules() )
-		rpt2	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, self.schedule.GetSchedules() )
+		rpt1	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, periodCount, self.schedule.GetSchedules() )
+		rpt2	 = wxScheduler.wxReportScheduler( format, style, drawer, day, weekstart, periodCount, self.schedule.GetSchedules() )
 
 		data = None
 		if self.printerSettings is not None:
