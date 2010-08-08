@@ -545,6 +545,12 @@ class wxSchedulerPaint( object ):
 						       0, 0, size.GetWidth(), 0)
 
 				self._datetimeCoords = tmpCoords
+
+				if self._style == wxSCHEDULER_HORIZONTAL:
+					if self._viewType == wxSCHEDULER_WEEKLY:
+						minW = 200 * 7
+					elif self._viewType == wxSCHEDULER_MONTHLY:
+						minW = 200 * wx.DateTime.GetNumberOfDaysInMonth(self.GetDate().GetMonth())
 			finally:
 				memDC.SelectObject(wx.NullBitmap)
 
