@@ -1,4 +1,4 @@
-
+v1.3.1:
 20100808
     - (Jerome) One can now display several periods at once (except
       for months)
@@ -19,7 +19,7 @@ v1.3.0:
  (see http://code.google.com/p/wxscheduler/source/list for detailed changes)
 
  20100724
-    - Added make tarball target to build a tar.gz package automatically 
+    - Added make tarball target to build a tar.gz package automatically
 
  20100216
     - (Jerome) More drawing optimizations; time to refresh the view in
