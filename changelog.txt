@@ -1,3 +1,7 @@
+
+20101006
+    - (Jerome) Method to choose the colour of the current day
+
 v1.3.1:
 20100808
     - (Jerome) One can now display several periods at once (except
