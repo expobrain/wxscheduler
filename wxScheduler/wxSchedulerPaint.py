@@ -508,7 +508,8 @@ class wxSchedulerPaint( object ):
 									     wx.Point(d * cellW + cellW, w * cellH + cellH)))
 
 					self._schedulesCoords.extend(drawer.DrawSchedulesCompact(theDay, schedules, d * cellW,
-												 w * cellH + y, cellW, cellH))
+												 w * cellH + y, cellW, cellH,
+												 self._highlightColor))
 
 			return (max(MONTH_CELL_SIZE_MIN.width * 7, width),
 				max(MONTH_CELL_SIZE_MIN.height * (w + 1), height))
