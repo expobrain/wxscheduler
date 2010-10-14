@@ -1,4 +1,8 @@
 
+20101014
+    - (Jerome) The month name in horizontal monthly view does not depend
+      on the current horinzontal scroll value.
+
 20101006
     - (Jerome) Method to choose the colour of the current day
 
