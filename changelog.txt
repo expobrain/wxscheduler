@@ -1,4 +1,8 @@
 
+20101015
+    - (Jerome) One can change the minimum width of days in horizontal
+      mode (weekly and monthly), as if it was a list header.
+
 20101014
     - (Jerome) The month name in horizontal monthly view does not depend
       on the current horinzontal scroll value.
