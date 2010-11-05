@@ -1,4 +1,8 @@
 
+20101105
+    - (Jerome) Tasks starting and ending at 00:00:00 the same day
+    would not be displayed correctly.
+
 20101015
     - (Jerome) One can change the minimum width of days in horizontal
       mode, as if it was a list header.
