@@ -1,4 +1,8 @@
 
+20101113
+    - (Jerome) Setting the column width to the minimum in horizontal
+      monthly view and switching to weekly would hang.
+
 20101105
     - (Jerome) Tasks starting and ending at 00:00:00 the same day
     would not be displayed correctly.
