@@ -150,6 +150,9 @@ class wxSchedulerCore( wxSchedulerPaint ):
 		self._schBind.remove( schedule )
 		schedule.Unbind( EVT_SCHEDULE_CHANGE )
 
+		# Without that the object is never actually freed
+		schedule.Destroy()
+
 		self.InvalidateMinSize()
 		self.Refresh()
 		

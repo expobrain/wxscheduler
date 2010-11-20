@@ -1,4 +1,7 @@
 
+20101120
+    - (Jerome) Fixed a memory leak in wxSchedulerCore.Delete.
+
 20101113
     - (Jerome) Setting the column width to the minimum in horizontal
       monthly view and switching to weekly would hang.
