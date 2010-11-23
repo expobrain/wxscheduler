@@ -1,4 +1,7 @@
 
+20101123
+    - (Jerome) Fixed another memory leak.
+
 20101120
     - (Jerome) Fixed a memory leak in wxSchedulerCore.Delete.
 
