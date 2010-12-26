@@ -179,6 +179,14 @@ class FrameSchedule( wx.Frame ):
 		# constructor. Ownership problems, I think.
 		self.printerSettings = None
 
+		# Timer to refresh the view every minute (to update the "now" line)
+		self.tmr = wx.Timer( self , wx.NewId() )
+		self.Bind( wx.EVT_TIMER, self.OnTimer )
+		self.tmr.Start( 60000, False )
+
+	def OnTimer( self, event ):
+		self.schedule.Refresh()
+
 	# -- Event 
 	def OnMB_FileNew( self ):
 		""" Create a new event
