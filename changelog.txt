@@ -1,4 +1,8 @@
 
+20100228
+    - (Jerome) Add get/set to set whether we should draw the 'Now' line.
+      If so, automatically refresh every minute.
+
 20101226
     - (Jerome) Always highlight current day
 

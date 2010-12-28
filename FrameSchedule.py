@@ -110,6 +110,11 @@ class FrameSchedule( wx.Frame ):
 		tb.AddControl(self.resizableCheck)
 		self.resizableCheck.Bind(wx.EVT_CHECKBOX, self.OnChangeResizable)
 
+		self.showNowCheck = wx.CheckBox(tb, wx.ID_ANY, 'Show now')
+		tb.AddControl(self.showNowCheck)
+		self.showNowCheck.SetValue(True)
+		self.showNowCheck.Bind(wx.EVT_CHECKBOX, self.OnChangeShowNow)
+
 		self.periodCount = wx.SpinCtrl(tb, wx.ID_ANY, '1', style=wx.SP_ARROW_KEYS)
 		self.periodCount.SetRange(1, 1000)
 		self.periodCountLabel = wx.StaticText(tb, wx.ID_ANY, 'day      ')
@@ -228,6 +233,9 @@ class FrameSchedule( wx.Frame ):
 
 	def OnChangeResizable( self, evt ):
 		self.schedule.SetResizable( evt.IsChecked() )
+
+	def OnChangeShowNow( self, evt ):
+		self.schedule.SetShowNow( evt.IsChecked() )
 
 	def _CheckPeriodLabel( self ):
 		if self.schedule.GetViewType() == wxScheduler.wxSCHEDULER_MONTHLY:
