@@ -1,4 +1,7 @@
 
+20110103
+    - (Jerome) Avoid calling OnSize twice per second and hogging the CPU.
+
 20100228
     - (Jerome) Add get/set to set whether we should draw the 'Now' line.
       If so, automatically refresh every minute.
