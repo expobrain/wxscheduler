@@ -1,4 +1,7 @@
 
+20110129
+    - (Jerome) Add configurable schedule font size
+
 20110103
     - (Jerome) Avoid calling OnSize twice per second and hogging the CPU.
 

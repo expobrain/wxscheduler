@@ -16,9 +16,10 @@ class wxDrawer(object):
 	# wx.GraphicsContext instead of wx.DC.
 	use_gc = False
 
-	def __init__(self, context, displayedHours):
+	def __init__(self, context, displayedHours, fontSize=10):
 		self.context = context
 		self.displayedHours = displayedHours
+		self.fontSize = fontSize
 
 	def DrawDayHeader(self, day, x, y, w, h, highlight=None):
 		"""
@@ -112,6 +113,7 @@ class wxDrawer(object):
 				offsetY += 20
 
 			font = schedule.font
+			font.SetPointSize(self.fontSize)
 			self.context.SetFont(font, schedule.foreground)
 
 			description = self._shrinkText( self.context, schedule.description, w - 2 * SCHEDULE_INSIDE_MARGIN, h )
@@ -149,6 +151,7 @@ class wxDrawer(object):
 				offsetY += 20
 
 			font = schedule.font
+			font.SetPointSize(self.fontSize)
 			self.context.SetFont(font)
 
 			self.context.SetTextForeground( schedule.foreground )
