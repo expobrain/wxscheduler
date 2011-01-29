@@ -172,10 +172,12 @@ class wxDrawer(object):
 
 		if self.use_gc:
 			font = schedule.font
+			font.SetPointSize( self.fontSize )
 			self.context.SetFont(font, schedule.color)
 		else:
 			font = schedule.font
 			self.context.SetTextForeground( schedule.foreground )
+			font.SetPointSize( self.fontSize )
 			self.context.SetFont(font)
 
 		y = y + position * height / total + SCHEDULE_OUTSIDE_MARGIN
@@ -194,10 +196,12 @@ class wxDrawer(object):
 
 		if self.use_gc:
 			font = schedule.font
+			font.SetPointSize( self.fontSize )
 			self.context.SetFont(font, schedule.color)
 		else:
 			font = schedule.font
 			self.context.SetTextForeground( schedule.color )
+			font.SetPointSize( self.fontSize )
 			self.context.SetFont(font)
 
 		# Height is variable
