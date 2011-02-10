@@ -1,4 +1,7 @@
 
+20110210
+    - (Jerome) Use user-set background and text color
+
 20110129
     - (Jerome) Add configurable schedule font size
 
