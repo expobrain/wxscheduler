@@ -1,4 +1,8 @@
 
+20110323
+    - (Jerome) Allow user to change dates and times by
+      drag and drop, and "resizing" the schedules.
+
 20110210
     - (Jerome) Use user-set background and text color
 
