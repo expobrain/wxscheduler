@@ -1,4 +1,7 @@
 
+20110812
+    - (Jerome) Respect the font size
+
 20110323
     - (Jerome) Allow user to change dates and times by
       drag and drop, and "resizing" the schedules.

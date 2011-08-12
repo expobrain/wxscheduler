@@ -49,6 +49,26 @@ class DemoFrame( FrameSchedule ):
 		schedule.foreground = wx.Color(255, 0, 0)
 		schedules.append(schedule)
 
+		schedule = wxScheduler.wxSchedule()
+		schedule.description = 'Custom background color'
+		schedule.start = wx.DateTimeFromHMS(15, 0, 0)
+		end = wx.DateTimeFromHMS(16, 0, 0)
+		end.AddDS(wx.DateSpan(days=2))
+		schedule.end = end
+		schedule.foreground = wx.Color(255, 0, 0)
+		schedule.color = wx.Color(0, 255, 0)
+		schedules.append(schedule)
+
+		schedule = wxScheduler.wxSchedule()
+		schedule.description = 'Custom font'
+		schedule.start = wx.DateTimeFromHMS(15, 0, 0)
+		end = wx.DateTimeFromHMS(16, 0, 0)
+		end.AddDS(wx.DateSpan(days=2))
+		schedule.end = end
+		schedule.foreground = wx.Color(255, 0, 0)
+		schedule.font = wx.SMALL_FONT
+		schedules.append(schedule)
+
 		# Parent panel
 		self.schedule.Freeze()
 		try:
