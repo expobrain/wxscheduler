@@ -1,4 +1,8 @@
 
+20111028
+    - (Jerome) Fixed a drag and drop bug when spanning multiple periods
+      in vertical mode.
+
 20110812
     - (Jerome) Respect the font size
 
