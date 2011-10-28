@@ -13,53 +13,52 @@ class DemoFrame( FrameSchedule ):
 		super( DemoFrame, self ).__init__( None )
 		
 		self.schedule.SetWeekStart( wxScheduler.wxSCHEDULER_WEEKSTART_SUNDAY )
+		self.schedule.SetWorkHours(5, 22)
 
 		schedules = []
 
 		complete = 0.0
-		## for description, start, end in [('From 10 to 13', 10, 13),
-		## 				('From 11 to 16', 11, 16),
-		## 				('From 14 to 17', 14, 17)]:
-		## 	schedule = wxScheduler.wxSchedule()
-		## 	schedule.Freeze()
-		## 	try:
-		## 		schedule.description = description
-		## 		schedule.start = wx.DateTimeFromHMS(start, 0, 0)
-		## 		schedule.end = wx.DateTimeFromHMS(end, 0, 0)
-		## 		schedule.complete = complete
-		## 		schedules.append(schedule)
-		## 	finally:
-		## 		schedule.Thaw()
-		## 	complete += 0.3
+		for description, start, end in [('From 10 to 13', 10, 13),
+						('From 11 to 16', 11, 16),
+						('From 14 to 17', 14, 17)]:
+			schedule = wxScheduler.wxSchedule()
+			schedule.Freeze()
+			try:
+				schedule.description = description
+				schedule.start = wx.DateTimeFromHMS(start, 0, 0)
+				schedule.end = wx.DateTimeFromHMS(end, 0, 0)
+				schedule.complete = complete
+				schedules.append(schedule)
+			finally:
+				schedule.Thaw()
+			complete += 0.3
 
-		## for idx in xrange(12):
-		## 	schedule = wxScheduler.wxSchedule()
-		## 	schedule.description = ('Test %d' % idx * 40)
-		## 	schedule.start = wx.DateTimeFromHMS(9, 0, 0)
-		## 	schedule.end = wx.DateTimeFromHMS(16, 0, 0)
-		## 	schedule.icons = [wx.ART_FOLDER, wx.ART_NORMAL_FILE]
-		## 	schedules.append(schedule)
+		for idx in xrange(12):
+			schedule = wxScheduler.wxSchedule()
+			schedule.description = ('Test %d' % idx * 40)
+			schedule.start = wx.DateTimeFromHMS(9, 0, 0)
+			schedule.end = wx.DateTimeFromHMS(16, 0, 0)
+			schedule.icons = [wx.ART_FOLDER, wx.ART_NORMAL_FILE]
+			schedules.append(schedule)
 
 		schedule = wxScheduler.wxSchedule()
-		schedule.description = 'TEST'
-		start = wx.DateTimeFromHMS(15, 0, 0)
-		start.AddDS(wx.DateSpan(days=1))
-		schedule.start = start
+		schedule.description = 'Spans 3 days'
+		schedule.start = wx.DateTimeFromHMS(15, 0, 0)
 		end = wx.DateTimeFromHMS(16, 0, 0)
-		end.AddDS(wx.DateSpan(days=1))
+		end.AddDS(wx.DateSpan(days=2))
 		schedule.end = end
 		schedule.foreground = wx.Color(255, 0, 0)
 		schedules.append(schedule)
 
-		## schedule = wxScheduler.wxSchedule()
-		## schedule.description = 'Custom background color'
-		## schedule.start = wx.DateTimeFromHMS(15, 0, 0)
-		## end = wx.DateTimeFromHMS(16, 0, 0)
-		## end.AddDS(wx.DateSpan(days=2))
-		## schedule.end = end
-		## schedule.foreground = wx.Color(255, 0, 0)
-		## schedule.color = wx.Color(0, 255, 0)
-		## schedules.append(schedule)
+		schedule = wxScheduler.wxSchedule()
+		schedule.description = 'Custom background color'
+		schedule.start = wx.DateTimeFromHMS(15, 0, 0)
+		end = wx.DateTimeFromHMS(16, 0, 0)
+		end.AddDS(wx.DateSpan(days=2))
+		schedule.end = end
+		schedule.foreground = wx.Color(255, 0, 0)
+		schedule.color = wx.Color(0, 255, 0)
+		schedules.append(schedule)
 
 		## schedule = wxScheduler.wxSchedule()
 		## schedule.description = 'Custom font'
