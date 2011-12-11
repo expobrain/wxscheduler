@@ -1,4 +1,7 @@
 
+20111211
+    - (Jerome) Performance improvements.
+
 20111028
     - (Jerome) Fixed a drag and drop bug when spanning multiple periods
       in vertical mode.
