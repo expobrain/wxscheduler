@@ -1,4 +1,7 @@
 
+20111212
+    - (Jerome) In some circumstances, DrawBuffer would recurse indefinitely.
+
 20111211
     - (Jerome) Performance improvements.
 
