@@ -1,4 +1,7 @@
 
+20120828
+    - (Jerome) Increase header font size
+
 20120523
     - (Jerome) First try at a better word wrapping algorithm
     - (Jerome) Fix hit test in non-resizable mode
