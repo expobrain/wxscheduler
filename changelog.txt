@@ -1,4 +1,8 @@
 
+20120909
+    - (Jerome) Use a singleton to format time so the caller can
+      specify its own format.
+
 20120828
     - (Jerome) Increase header font size
 
