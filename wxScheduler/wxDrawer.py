@@ -637,7 +637,11 @@ class wxBaseDrawer(BackgroundDrawerDCMixin, HeaderDrawerDCMixin, HeaderDrawerMix
 			self.context.DrawRectangle(x, y, LEFT_COLUMN_SIZE, h)
 
 		font = self.context.GetFont()
-		font.SetPointSize( 12 )
+		if direction == wxSCHEDULER_VERTICAL:
+			pW = int(1.3 * LEFT_COLUMN_SIZE / len( wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) ))
+		else:
+			pW = int(1.3 * w / len( wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) ) / len( self.displayedHours ) * 2 )
+		font.SetPixelSize((pW, pW))
 		font.SetWeight( wx.FONTWEIGHT_NORMAL )
 		self.context.SetFont( font )
 		self.context.SetTextForeground( wx.BLACK )
@@ -705,7 +709,11 @@ class wxFancyDrawer(BackgroundDrawerGCMixin, HeaderDrawerGCMixin, HeaderDrawerMi
 		fweight = font.GetWeight()
 
 		try:
-			font.SetPointSize(12)
+			if direction == wxSCHEDULER_VERTICAL:
+				pW = int(1.3 * LEFT_COLUMN_SIZE / len( wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) ))
+			else:
+				pW = int(1.3 * w / len( wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) ) / len( self.displayedHours ) * 2 )
+			font.SetPixelSize((pW, pW))
 			font.SetWeight(wx.FONTWEIGHT_NORMAL)
 			self.context.SetFont(font, wx.BLACK)
 			hourW, hourH = self.context.GetTextExtent( ' ' + wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) )

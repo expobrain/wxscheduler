@@ -15,6 +15,12 @@ class DemoFrame( FrameSchedule ):
 		self.schedule.SetWeekStart( wxScheduler.wxSCHEDULER_WEEKSTART_SUNDAY )
 		self.schedule.SetWorkHours(5, 22)
 
+		def fmt(dt, includeMinutes=False):
+			if includeMinutes:
+				return dt.Format('%I:%M %p')
+			return dt.Format('%I %p')
+		wxScheduler.wxTimeFormat.SetFormatFunction(fmt)
+
 		schedules = []
 
 		complete = 0.0
