@@ -1,4 +1,8 @@
 
+20121111
+    - (Jerome) Adapt font size to available space when drawing
+      hours
+
 20120909
     - (Jerome) Use a singleton to format time so the caller can
       specify its own format.
