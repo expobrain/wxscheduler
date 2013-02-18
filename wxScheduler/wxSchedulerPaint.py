@@ -871,6 +871,7 @@ class wxSchedulerPaint( object ):
 					context.SetFont(wx.NORMAL_FONT, wx.BLACK)
 				else:
 					context = memDC
+					context.SetFont(wx.NORMAL_FONT)
 
 				if isinstance(self, wx.ScrolledWindow):
 					size = self.GetVirtualSize()
@@ -928,8 +929,10 @@ class wxSchedulerPaint( object ):
 
 				if self._drawerClass.use_gc:
 					context = wx.GraphicsContext.Create(memDC)
+					context.SetFont(wx.NORMAL_FONT, wx.BLACK)
 				else:
 					context = memDC
+					context.SetFont(wx.NORMAL_FONT)
 
 				width, height = self.DoPaint(self._drawerClass(context, self._lstDisplayedHours),
 							     0, 0, size.GetWidth(), size.GetHeight())
@@ -961,8 +964,10 @@ class wxSchedulerPaint( object ):
 
 				if self._drawerClass.use_gc:
 					context = wx.GraphicsContext.Create(memDC)
+					context.SetFont(wx.NORMAL_FONT, wx.BLACK)
 				else:
 					context = memDC
+					context.SetFont(wx.NORMAL_FONT)
 
 				self._drawerClass(context, self._lstDisplayedHours)._DrawSchedule(schedule, *schedule.bounds)
 			finally:
@@ -1086,8 +1091,10 @@ class wxSchedulerPaint( object ):
 
 			if self._drawerClass.use_gc:
 				context = wx.GraphicsContext.Create(dc)
+				context.SetFont(wx.NORMAL_FONT, wx.BLACK)
 			else:
 				context = dc
+				context.SetFont(wx.NORMAL_FONT)
 
 			drawer = self._drawerClass(context, self._lstDisplayedHours)
 
