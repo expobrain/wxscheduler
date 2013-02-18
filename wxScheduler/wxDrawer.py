@@ -645,7 +645,7 @@ class wxBaseDrawer(BackgroundDrawerDCMixin, HeaderDrawerDCMixin, HeaderDrawerMix
 			else:
 				pW = int(1.3 * w / len( wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) ) / len( self.displayedHours ) * 2 )
 			pW = min(pW, 20)
-			font.SetPixelSize((pW, pW))
+			font.SetPixelSize((pW, int(1.0 * fH * pW / fW)))
 			font.SetWeight( wx.FONTWEIGHT_NORMAL )
 			self.context.SetFont( font )
 			self.context.SetTextForeground( wx.BLACK )
@@ -722,7 +722,7 @@ class wxFancyDrawer(BackgroundDrawerGCMixin, HeaderDrawerGCMixin, HeaderDrawerMi
 			else:
 				pW = int(1.3 * w / len( wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) ) / len( self.displayedHours ) * 2 )
 			pW = min(pW, 20)
-			font.SetPixelSize((pW, pW))
+			font.SetPixelSize((pW, int(1.0 * fH * pW / fW)))
 			font.SetWeight(wx.FONTWEIGHT_NORMAL)
 			self.context.SetFont(font, wx.BLACK)
 			hourW, hourH = self.context.GetTextExtent( ' ' + wxTimeFormat.FormatTime( wx.DateTimeFromHMS(23, 59, 59) ) )
