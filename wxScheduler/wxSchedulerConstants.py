@@ -21,11 +21,11 @@ wxSCHEDULER_WEEKSTART_SUNDAY = 0
 def SCHEDULER_BACKGROUND_BRUSH():
     _bg = wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW )
     _r, _g, _b = _bg.Red(), _bg.Green(), _bg.Blue()
-    return wx.Color( max(0, _r - 15), max(0, _g - 15), max(0, _b - 15) )  
+    return wx.Colour( max(0, _r - 15), max(0, _g - 15), max(0, _b - 15) )  
 def DAY_BACKGROUND_BRUSH():
     _bg = wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW )
     _r, _g, _b = _bg.Red(), _bg.Green(), _bg.Blue()
-    return wx.Color( _r, _g, _b )
+    return wx.Colour( _r, _g, _b )
 FOREGROUND_PEN				= wx.LIGHT_GREY_PEN
 
 LEFT_COLUMN_SIZE		= 50

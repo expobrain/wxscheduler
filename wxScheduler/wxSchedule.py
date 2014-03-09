@@ -17,7 +17,7 @@ EVT_SCHEDULE_CHANGE = wx.PyEventBinder( wxEVT_COMMAND_SCHEDULE_CHANGE )
 			 
 class wxSchedule( wx.EvtHandler ):
 	
-	SCHEDULE_DEFAULT_COLOR = wx.Color( 247, 212, 57 )  
+	SCHEDULE_DEFAULT_COLOR = wx.Colour( 247, 212, 57 )  
 	SCHEDULE_DEFAULT_FOREGROUND = wx.BLACK
 
 	CATEGORIES = {
@@ -175,8 +175,8 @@ class wxSchedule( wx.EvtHandler ):
 		"""
 		Set the color
 		"""
-		if not isinstance( color, wx.Color ):
-			raise ValueError, "Color can be only a wx.Color value"
+		if not isinstance( color, wx.Colour ):
+			raise ValueError, "Color can be only a wx.Colour value"
 
 		self._color = color
 		self._eventNotification()

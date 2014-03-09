@@ -545,10 +545,10 @@ class HeaderDrawerGCMixin(object):
 			y2 = y + textH * 1.5
 
 			if highlight is not None:
-				self.context.SetBrush(self.context.CreateLinearGradientBrush(x1, y1, x2, y2, wx.Color(128, 128, 128),
+				self.context.SetBrush(self.context.CreateLinearGradientBrush(x1, y1, x2, y2, wx.Colour(128, 128, 128),
 											     highlight))
 			else:
-				self.context.SetBrush(self.context.CreateLinearGradientBrush(x1, y1, x2, y2, wx.Color(128, 128, 128),
+				self.context.SetBrush(self.context.CreateLinearGradientBrush(x1, y1, x2, y2, wx.Colour(128, 128, 128),
 											     SCHEDULER_BACKGROUND_BRUSH()))
 			self.context.DrawRectangle(x1, y1, x2 - x1, y2 - y1)
 

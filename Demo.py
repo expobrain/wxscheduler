@@ -53,7 +53,7 @@ class DemoFrame( FrameSchedule ):
 		end = wx.DateTimeFromHMS(16, 0, 0)
 		end.AddDS(wx.DateSpan(days=2))
 		schedule.end = end
-		schedule.foreground = wx.Color(255, 0, 0)
+		schedule.foreground = wx.Colour(255, 0, 0)
 		schedules.append(schedule)
 
 		schedule = wxScheduler.wxSchedule()
@@ -62,8 +62,8 @@ class DemoFrame( FrameSchedule ):
 		end = wx.DateTimeFromHMS(16, 0, 0)
 		end.AddDS(wx.DateSpan(days=2))
 		schedule.end = end
-		schedule.foreground = wx.Color(255, 0, 0)
-		schedule.color = wx.Color(0, 255, 0)
+		schedule.foreground = wx.Colour(255, 0, 0)
+		schedule.color = wx.Colour(0, 255, 0)
 		schedules.append(schedule)
 
 		## schedule = wxScheduler.wxSchedule()
@@ -72,7 +72,7 @@ class DemoFrame( FrameSchedule ):
 		## end = wx.DateTimeFromHMS(16, 0, 0)
 		## end.AddDS(wx.DateSpan(days=2))
 		## schedule.end = end
-		## schedule.foreground = wx.Color(255, 0, 0)
+		## schedule.foreground = wx.Colour(255, 0, 0)
 		## schedule.font = wx.SMALL_FONT
 		## schedules.append(schedule)
 

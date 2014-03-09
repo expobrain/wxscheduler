@@ -1,4 +1,7 @@
 
+20140309
+   - (Jerome) Compatibility with wx 3.0
+
 20121111
     - (Jerome) Adapt font size to available space when drawing
       hours
